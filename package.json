@@ -1,0 +1,36 @@
+{
+  "name": "nextjs",
+  "version": "5.0.0",
+  "private": true,
+  "scripts": {
+    "local": "next",
+    "dev": "yarn && next build && next start",
+    "prod": "yarn && NEXT_PUBLIC_NODE_ENV=production next build &&  next start -p 5000",
+    "prodLocal": "NEXT_PUBLIC_NODE_ENV=production next -p 5000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@feathersjs/authentication-client": "^4.5.13",
+    "@feathersjs/feathers": "^4.5.12",
+    "@feathersjs/rest-client": "^4.5.12",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "axios": "^0.25.0",
+    "cookie-storage": "^6.1.0",
+    "next": "latest",
+    "prop-types": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "eslint": "latest",
+    "eslint-config-next": "latest"
+  }
+}
