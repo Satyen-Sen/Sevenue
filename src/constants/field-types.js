@@ -12,48 +12,48 @@ export const FLD_TYPE_FILES = 'FLD_TYPE_FILES';
 export const FLD_TYPE_RICH_TEXT = 'FLD_TYPE_RICH_TEXT';
 
 export const fieldTypesListForForm = [
-    {
-        name: 'Text',
-        key: FLD_TYPE_TEXT,
-    },
-    {
-        name: 'Avatar / Cover Photo',
-        key: FLD_TYPE_AVATAR,
-    },
-    {
-        name: 'Email',
-        key: FLD_TYPE_EMAIL,
-    },
-    {
-        name: 'Number',
-        key: FLD_TYPE_NUMBER,
-    },
-    {
-        name: 'Phone Number',
-        key: FLD_TYPE_PHONE,
-    },
-    {
-        name: 'Textarea',
-        key: FLD_TYPE_TEXTAREA,
-    },
-    {
-        name: 'Option',
-        key: FLD_TYPE_OPTION,
-    },
-    {
-        name: 'Option Multi',
-        key: FLD_TYPE_OPTION_MULTI,
-    },
-    {
-        name: 'Switch',
-        key: FLD_TYPE_SWITCH,
-    },
-    {
-        name: 'Files',
-        key: FLD_TYPE_FILES,
-    },
-    {
-        name: 'Rich Text (WYSIWYG)',
-        key: FLD_TYPE_RICH_TEXT,
-    },
+  {
+    name: 'Text',
+    key: FLD_TYPE_TEXT,
+  },
+  {
+    name: 'Avatar / Cover Photo',
+    key: FLD_TYPE_AVATAR,
+  },
+  {
+    name: 'Email',
+    key: FLD_TYPE_EMAIL,
+  },
+  {
+    name: 'Number',
+    key: FLD_TYPE_NUMBER,
+  },
+  {
+    name: 'Phone Number',
+    key: FLD_TYPE_PHONE,
+  },
+  {
+    name: 'Textarea',
+    key: FLD_TYPE_TEXTAREA,
+  },
+  {
+    name: 'Option',
+    key: FLD_TYPE_OPTION,
+  },
+  {
+    name: 'Option Multi',
+    key: FLD_TYPE_OPTION_MULTI,
+  },
+  {
+    name: 'Switch',
+    key: FLD_TYPE_SWITCH,
+  },
+  {
+    name: 'Files',
+    key: FLD_TYPE_FILES,
+  },
+  {
+    name: 'Rich Text (WYSIWYG)',
+    key: FLD_TYPE_RICH_TEXT,
+  },
 ];

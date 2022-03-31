@@ -13,7 +13,7 @@ export const authCookieName = 'ticket';
  */
 export const cookieStorage = new CookieStorage();
 
-const socketClient = io('https://api.test.jupionclasses.com');
+const socketClient = io(process.env.NEXT_PUBLIC_API_URI);
 
 /**
  * Feathers application
@@ -22,20 +22,20 @@ const socketClient = io('https://api.test.jupionclasses.com');
 const socketApp = feathers();
 
 socketApp.configure(
-    socketio(socketClient, {
-        transports: ['websocket'],
-    }),
+  socketio(socketClient, {
+    transports: ['websocket'],
+  }),
 );
 
 socketApp.configure(
-    auth({
-        path: services.authentication,
-        // cookie: process.env.NEXT_COOKIE_NAME,
-        cookie: authCookieName,
-        // storageKey: process.env.NEXT_COOKIE_NAME,
-        storageKey: authCookieName,
-        storage: cookieStorage,
-    }),
+  auth({
+    path: services.authentication,
+    // cookie: process.env.NEXT_COOKIE_NAME,
+    cookie: authCookieName,
+    // storageKey: process.env.NEXT_COOKIE_NAME,
+    storageKey: authCookieName,
+    storage: cookieStorage,
+  }),
 );
 
 export default socketApp;
