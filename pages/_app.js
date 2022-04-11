@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CacheProvider } from '@emotion/react';
 import createEmotionCache from '../src/createEmotionCache';
 import { NextIntlProvider } from 'next-intl';
-import defaultMessages from '../src/messages/shared/en.json';
+import defaultMessages from '../messages/shared/en.json';
 import DefaultLayout from '../src/layouts/DefaultLayout';
 import { SnackbarProvider } from 'notistack';
 // import { UserProvider } from '../src/store/UserContext';

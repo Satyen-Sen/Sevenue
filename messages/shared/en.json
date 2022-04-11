@@ -1,0 +1,8 @@
+{
+	"layout": {
+		"default": {
+			"login": "Login",
+			"register": "Registered already?"
+		}
+	}
+}

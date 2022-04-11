@@ -1,9 +1,0 @@
-{
-	"layout": {
-		"language": {
-			"picker": "Change language",
-			"iconAlt": "Change language drop down"
-		},
-		"snackbarDismiss": "Dismiss"
-	}
-}

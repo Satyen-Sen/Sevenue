@@ -1,11 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme';
 import CssBaseline from '@mui/material/CssBaseline';
-import DefaultHeader from './DefaultHeader';
+import theme from '../DefaultLayout/theme';
+import EventHeader from './EventHeader';
+// import DefaultHeader from './DefaultHeader';
 
-const DefaultLayout = ({ children }) => {
+const EventLayout = ({ children }) => {
   return (
     <React.Fragment>
       {/*<Head>*/}
@@ -15,22 +16,22 @@ const DefaultLayout = ({ children }) => {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         {/*{error ? <Error statusCode={error.code} /> : children}*/}
-        <DefaultHeader />
+        <EventHeader />
         {children}
       </ThemeProvider>
     </React.Fragment>
   );
 };
 
-DefaultLayout.defaultProps = {
+EventLayout.defaultProps = {
   // error: null,
   // loadDefaults: false,
 };
 
-DefaultLayout.propTypes = {
+EventLayout.propTypes = {
   children: PropTypes.node.isRequired,
   // error: PropTypes.object,
   // loadDefaults: PropTypes.bool,
 };
 
-export default DefaultLayout;
+export default EventLayout;

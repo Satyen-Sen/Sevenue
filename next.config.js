@@ -30,7 +30,9 @@ const config = withOptimizedImages({
     //   },
     // ],
   },
-
+  images: {
+    disableStaticImages: true,
+  },
   reactStrictMode: true,
 });
 

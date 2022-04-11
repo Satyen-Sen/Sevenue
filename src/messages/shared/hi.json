@@ -1,9 +1,0 @@
-{
-	"layout": {
-		"language": {
-			"picker": "भाषा बदलें",
-			"iconAlt": "भाषा बदलें ड्रॉप डाउन"
-		},
-		"snackbarDismiss": "खारिज"
-	}
-}
