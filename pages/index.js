@@ -5,6 +5,11 @@ import Box from '@mui/material/Box';
 import Link from '../src/components/Link';
 import getPageMessages from '../utils/getPageMessages';
 import { useTranslations } from 'next-intl';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+
+import IMG from '../src/assets/landing/temp_logo.png';
+import EventDetailCard from '../src/page-components/index/EventDetailCard';
 
 const Index = () => {
   const translations = useTranslations();
@@ -21,14 +26,16 @@ const Index = () => {
 
   return (
     <Container>
-      <Box sx={{ my: 4 }}>
-        <Typography component="h1" gutterBottom variant="h4">
-          {translations('home.header')}
-        </Typography>
-        <Link color="secondary" href="/about">
-          Go to the about page
-        </Link>
-      </Box>
+      <Box mt={3.5} />
+      <Grid container spacing={4}>
+        <Grid item md={7} sm={12} xs={12}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img alt="logo" height={'auto'} src={IMG} width={'100%'} />
+        </Grid>
+        <Grid item md={5} sm={12} xs={12}>
+          <EventDetailCard />
+        </Grid>
+      </Grid>
     </Container>
   );
 };

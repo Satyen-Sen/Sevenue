@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Logo from '../../assets/logo/sevenue_logo.png';
+import Logo from '../../assets/logo/sevenue_logo.svg';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';

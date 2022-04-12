@@ -1,5 +1,9 @@
 {
-	"home": {
-		"header": "This is my header"
+	"card": {
+		"event-by": "Event By",
+		"starting-in": "Starting In",
+		"event-time": "Event Time",
+		"register-now": "Register Now",
+		"stay-updated": "Stay Updated"
 	}
 }
