@@ -11,6 +11,7 @@ import Tab from '@mui/material/Tab';
 import { useTranslations } from 'next-intl';
 import { styled } from '@mui/material/styles';
 import ScheduleDetails from '../src/page-components/index/ScheduleDetails';
+import AllSpeakerDetails from '../src/page-components/index/AllSpeakerDetails';
 
 const CustomTab = styled((props) => <Tab disableRipple {...props} />)(({ theme }) => ({
   textTransform: 'none',
@@ -29,7 +30,11 @@ function TabPanel(props) {
       role="tabpanel"
       {...other}
     >
-      {value === index && <Box mt={2}>{children}</Box>}
+      {value === index && (
+        <Box mb={2} mt={2}>
+          {children}
+        </Box>
+      )}
     </div>
   );
 }
@@ -87,7 +92,7 @@ const Index = () => {
               <ScheduleDetails />
             </TabPanel>
             <TabPanel index={1} value={value}>
-              Item Two
+              <AllSpeakerDetails />
             </TabPanel>
             <TabPanel index={2} value={value}>
               Item Three

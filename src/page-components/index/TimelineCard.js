@@ -54,8 +54,6 @@ const TimelineCard = () => {
           <SpeakerAvatar />
           <SpeakerAvatar />
           <Avatar
-            alt="Remy Sharp"
-            src="/broken-image.jpg"
             sx={(theme) => ({
               height: theme.spacing(4),
               width: theme.spacing(4),

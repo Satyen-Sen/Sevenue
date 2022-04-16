@@ -47,15 +47,14 @@ const SpeakerProfileDetailsDialog = ({ openProfile, setOpenProfile }) => {
             >
               <ListItemAvatar>
                 <Avatar
+                  alt={'Profile'}
+                  src={IMG}
                   sx={(theme) => ({
                     height: theme.spacing(10),
                     width: theme.spacing(10),
                     marginRight: theme.spacing(2),
                   })}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-                </Avatar>
+                />
               </ListItemAvatar>
               <ListItemText
                 primary={
@@ -96,188 +95,62 @@ const SpeakerProfileDetailsDialog = ({ openProfile, setOpenProfile }) => {
               dolor sit amet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet finibus ipsum, a
               interdum risus. Fusce in scelerisque sapien. Lorem ipsum dolor sit amet.
             </Typography>
-            <Paper
-              elevation={0}
-              sx={(theme) => ({
-                borderRadius: theme.shape.borderRadius - 2,
-                padding: theme.spacing(3),
-                border: '1px solid',
-                borderColor: theme.palette.divider,
-                marginTop: theme.spacing(2),
-              })}
-            >
-              <Typography
+            {new Array(3).fill(0).map((_, index) => (
+              <Paper
+                elevation={0}
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
                 sx={(theme) => ({
-                  ...theme.typography.body2,
-                  fontSize: '1rem',
-                  color: theme.palette.text.secondary,
+                  borderRadius: theme.shape.borderRadius - 2,
+                  padding: theme.spacing(3),
+                  border: '1px solid',
+                  borderColor: theme.palette.divider,
+                  marginTop: theme.spacing(2),
                 })}
               >
-                02:00 PM - 03:00 PM, 26th June 2020
-              </Typography>
-              <Typography
-                sx={(theme) => ({
-                  ...theme.typography.body2,
-                  fontSize: '0.8rem',
-                  fontWeight: theme.typography.fontWeightBold,
-                })}
-              >
-                Navigationthe new way to get to the point where you can start to build your own
-              </Typography>
-              <List>
-                <ListItem
+                <Typography
                   sx={(theme) => ({
-                    padding: theme.spacing(0),
+                    ...theme.typography.body2,
+                    fontSize: '1rem',
+                    color: theme.palette.text.secondary,
                   })}
                 >
-                  <ListItemAvatar>
-                    <Avatar>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={<Typography fontWeight={'bold'}>{'Speaker Name'}</Typography>}
-                    secondary={
-                      <Typography color={'text.secondary'} variant={'subtitle2'}>
-                        {'Designation, Company name'}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <ListItem
+                  02:00 PM - 03:00 PM, 26th June 2020
+                </Typography>
+                <Typography
                   sx={(theme) => ({
-                    padding: theme.spacing(0),
+                    ...theme.typography.body2,
+                    fontSize: '0.8rem',
+                    fontWeight: theme.typography.fontWeightBold,
                   })}
                 >
-                  <ListItemAvatar>
-                    <Avatar>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={<Typography fontWeight={'bold'}>{'Speaker Name'}</Typography>}
-                    secondary={
-                      <Typography color={'text.secondary'} variant={'subtitle2'}>
-                        {'Designation, Company name'}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <ListItem
-                  sx={(theme) => ({
-                    padding: theme.spacing(0),
-                  })}
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={<Typography fontWeight={'bold'}>{'Speaker Name'}</Typography>}
-                    secondary={
-                      <Typography color={'text.secondary'} variant={'subtitle2'}>
-                        {'Designation, Company name'}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              </List>
-            </Paper>
-            <Paper
-              elevation={0}
-              sx={(theme) => ({
-                borderRadius: theme.shape.borderRadius - 2,
-                padding: theme.spacing(3),
-                border: '1px solid',
-                borderColor: theme.palette.divider,
-                marginTop: theme.spacing(2),
-              })}
-            >
-              <Typography
-                sx={(theme) => ({
-                  ...theme.typography.body2,
-                  fontSize: '1rem',
-                  color: theme.palette.text.secondary,
-                })}
-              >
-                02:00 PM - 03:00 PM, 26th June 2020
-              </Typography>
-              <Typography
-                sx={(theme) => ({
-                  ...theme.typography.body2,
-                  fontSize: '0.8rem',
-                  fontWeight: theme.typography.fontWeightBold,
-                })}
-              >
-                Navigationthe new way to get to the point where you can start to build your own
-              </Typography>
-              <List>
-                <ListItem
-                  sx={(theme) => ({
-                    padding: theme.spacing(0),
-                  })}
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={<Typography fontWeight={'bold'}>{'Speaker Name'}</Typography>}
-                    secondary={
-                      <Typography color={'text.secondary'} variant={'subtitle2'}>
-                        {'Designation, Company name'}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <ListItem
-                  sx={(theme) => ({
-                    padding: theme.spacing(0),
-                  })}
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={<Typography fontWeight={'bold'}>{'Speaker Name'}</Typography>}
-                    secondary={
-                      <Typography color={'text.secondary'} variant={'subtitle2'}>
-                        {'Designation, Company name'}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-                <ListItem
-                  sx={(theme) => ({
-                    padding: theme.spacing(0),
-                  })}
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={<Typography fontWeight={'bold'}>{'Speaker Name'}</Typography>}
-                    secondary={
-                      <Typography color={'text.secondary'} variant={'subtitle2'}>
-                        {'Designation, Company name'}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              </List>
-            </Paper>
+                  Navigationthe new way to get to the point where you can start to build your own
+                </Typography>
+                <List>
+                  {new Array(4).fill(0).map((_, index) => (
+                    <ListItem
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index}
+                      sx={(theme) => ({
+                        padding: theme.spacing(0),
+                      })}
+                    >
+                      <ListItemAvatar>
+                        <Avatar alt={'Profile'} src={IMG} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={<Typography fontWeight={'bold'}>{'Speaker Name'}</Typography>}
+                        secondary={
+                          <Typography color={'text.secondary'} variant={'subtitle2'}>
+                            {'Designation, Company name'}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
+            ))}
           </Box>
         </DialogContent>
       </Dialog>

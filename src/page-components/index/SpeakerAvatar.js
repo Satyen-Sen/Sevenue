@@ -19,19 +19,17 @@ const SpeakerAvatar = () => {
         {(popupState) => (
           <div>
             <Avatar
-              alt="Remy Sharp"
+              alt="img"
               aria-haspopup="true"
               {...bindHover(popupState)}
+              src={IMG}
               sx={(theme) => ({
                 height: theme.spacing(4),
                 width: theme.spacing(4),
                 marginRight: theme.spacing(0.5),
                 cursor: 'pointer',
               })}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-            </Avatar>
+            />
             <HoverPopover
               {...bindPopover(popupState)}
               anchorOrigin={{
@@ -57,14 +55,12 @@ const SpeakerAvatar = () => {
               >
                 <Avatar
                   alt="img"
+                  src={IMG}
                   sx={(theme) => ({
                     height: theme.spacing(7),
                     width: theme.spacing(7),
                   })}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img alt="profile" height={'100%'} src={IMG} width={'100%'} />
-                </Avatar>
+                />
                 <Typography
                   align={'center'}
                   sx={(theme) => ({
