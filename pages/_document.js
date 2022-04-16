@@ -20,6 +20,25 @@ export default class MyDocument extends Document {
           {/* Inject MUI styles first to match with the prepend: true configuration. */}
           {this.props.emotionStyleTags}
         </Head>
+        <style>{`
+          /* Scrollbar Styling */
+          ::-webkit-scrollbar {
+              width: 8px;
+          }
+          ::-webkit-scrollbar-track {
+              background-color: #f6f6f6;
+              -webkit-border-radius: 10px;
+              border-radius: 10px;
+          }
+          ::-webkit-scrollbar-thumb {
+              -webkit-border-radius: 10px;
+              border-radius: 10px;
+              background: #d5d5d5;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+              background: #c8c8c8;
+          }
+      `}</style>
         <body>
           <Main />
           <NextScript />

@@ -6,7 +6,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useTranslations } from 'next-intl';
 
-const EventBasicDescription = () => {
+const EventBasicDetail = () => {
   const translations = useTranslations();
   const [show, setShow] = React.useState(false);
   return (
@@ -102,4 +102,4 @@ const EventBasicDescription = () => {
   );
 };
 
-export default EventBasicDescription;
+export default EventBasicDetail;

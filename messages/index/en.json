@@ -7,5 +7,16 @@
 		"event-time": "Event Time",
 		"register-now": "Register Now",
 		"stay-updated": "Stay Updated"
+	},
+	"tab": {
+		"schedule": "Schedule",
+		"speakers": "Speakers",
+		"sponsors": "Sponsors",
+		"exhibitors": "Exhibitors",
+		"organizer": "Organizer"
+	},
+	"tabDetail": {
+		"view-details": "View Details",
+		"view-profile": "View Profile"
 	}
 }
