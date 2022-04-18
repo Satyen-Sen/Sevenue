@@ -18,5 +18,10 @@
 	"tabDetail": {
 		"view-details": "View Details",
 		"view-profile": "View Profile"
+	},
+	"sponsors": {
+		"gold-sponsor": "Gold Sponsor",
+		"silver-sponsor": "Silver Sponsor",
+		"brand-sponsor": "Brand Sponsor"
 	}
 }

@@ -12,6 +12,7 @@ import { useTranslations } from 'next-intl';
 import { styled } from '@mui/material/styles';
 import ScheduleDetails from '../src/page-components/index/ScheduleDetails';
 import AllSpeakerDetails from '../src/page-components/index/AllSpeakerDetails';
+import SponsorsDetails from '../src/page-components/index/SponsorsDetails';
 
 const CustomTab = styled((props) => <Tab disableRipple {...props} />)(({ theme }) => ({
   textTransform: 'none',
@@ -84,8 +85,8 @@ const Index = () => {
                 <CustomTab label={translations('tab.schedule')} {...a11yProps(0)} />
                 <CustomTab label={translations('tab.speakers')} {...a11yProps(1)} />
                 <CustomTab label={translations('tab.sponsors')} {...a11yProps(2)} />
-                <CustomTab label={translations('tab.exhibitors')} {...a11yProps(2)} />
-                <CustomTab label={translations('tab.organizer')} {...a11yProps(2)} />
+                <CustomTab label={translations('tab.exhibitors')} {...a11yProps(3)} />
+                <CustomTab label={translations('tab.organizer')} {...a11yProps(4)} />
               </Tabs>
             </Box>
             <TabPanel index={0} value={value}>
@@ -95,7 +96,13 @@ const Index = () => {
               <AllSpeakerDetails />
             </TabPanel>
             <TabPanel index={2} value={value}>
-              Item Three
+              <SponsorsDetails />
+            </TabPanel>
+            <TabPanel index={3} value={value}>
+              <SponsorsDetails />
+            </TabPanel>
+            <TabPanel index={4} value={value}>
+              <SponsorsDetails />
             </TabPanel>
           </React.Fragment>
         </Grid>
