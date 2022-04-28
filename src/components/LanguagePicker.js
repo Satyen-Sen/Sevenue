@@ -31,6 +31,7 @@ const LanguagePicker = () => {
         </Box>
         <span>
           {locale}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img alt={String(translations('language.iconAlt'))} src={ArrowDownIcon} />
         </span>
       </Box>

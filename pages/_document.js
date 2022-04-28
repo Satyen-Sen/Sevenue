@@ -12,6 +12,7 @@ export default class MyDocument extends Document {
           {/* PWA primary color */}
           <meta content={theme.palette.primary.main} name="theme-color" />
           <link href="/static/favicon.ico" rel="shortcut icon" />
+          {/* eslint-disable-next-line @next/next/no-css-tags */}
           <link
             href="//db.onlinewebfonts.com/c/0d49fc455f4a8951a42daf952412a713?family=Helvetica+Neue"
             rel="stylesheet"

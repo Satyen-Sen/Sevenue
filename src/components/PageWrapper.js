@@ -38,6 +38,7 @@ const PageWrapper = ({ children }) => {
               height: theme.spacing(7),
             })}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img alt={'Logo'} height={'100%'} src={Logo} width={'100%'} />
           </Box>
         </Box>

@@ -1,0 +1,70 @@
+{
+  "label": {
+    "profile": "Profile",
+    "social": "Social",
+    "matching": "Matching",
+    "interests": "Interests"
+  },
+  "profile": {
+    "title": "Welcome to {event}",
+    "description": "Complete your profile below to get started!",
+    "form": {
+      "first-name": "First name",
+      "enter-first-name": "Enter your first name",
+      "last-name": "Last name",
+      "enter-last-name": "Enter your last name",
+      "email": "Email",
+      "enter-email": "Enter your email",
+      "gender": "Select Gender",
+      "job-title": "Job Title (if applicable)",
+      "enter-job-title": "Enter your job title",
+      "company-name": "Company name (if applicable)",
+      "enter-company-name": "Enter your company name",
+      "about": "About",
+      "enter-about": "Enter a short description about yourself",
+      "phone": "Phone number",
+      "enter-phone": "Enter your phone number",
+      "age": "Select Age",
+      "state": "Select State",
+      "here-about-us": "How did you hear About us?",
+      "next": "Next"
+    }
+  },
+  "social": {
+    "title": "Social Profile Connections",
+    "description": "Your profile helps you discover new people & relevant Opportunities.",
+    "form": {
+      "facebook": "Facebook",
+      "facebook-placeholder": "Enter your Facebook profile URL",
+      "twitter": "Twitter",
+      "twitter-placeholder": "Enter your Twitter profile URL",
+      "instagram": "Instagram",
+      "instagram-placeholder": "Enter your Instagram profile URL",
+      "linkedin": "LinkedIn",
+      "linkedin-placeholder": "Enter your LinkedIn profile URL",
+      "website": "Website",
+      "website-placeholder": "Enter your website URL",
+      "next": "Next",
+      "previous": "Previous",
+      "skip": "Skip"
+    }
+  },
+  "matching": {
+    "title": "Looking For and Offering",
+    "description": "Select the services that will help you match with the right people",
+    "sub-title-1": "Looking For",
+    "sub-title-2": "Offering",
+    "next": "Next",
+    "previous": "Previous",
+    "skip": "Skip"
+  },
+  "interest": {
+    "title": "Interests",
+    "description": "Choose your interest to be matched with like-minded people",
+    "sub-title-1": "Fintech",
+    "sub-title-2": "Solutions",
+    "next": "Join Event",
+    "previous": "Previous",
+    "skip": "Skip"
+  }
+}
