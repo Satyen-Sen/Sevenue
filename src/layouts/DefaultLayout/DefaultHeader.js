@@ -27,7 +27,7 @@ const DefaultHeader = () => {
             </Box>
             <Box alignItems={'center'} display={'flex'} justifyContent={'center'}>
               <Link
-                href="/"
+                href="/login"
                 sx={(theme) => ({
                   textDecoration: 'none',
                   padding: theme.spacing(0, 2),

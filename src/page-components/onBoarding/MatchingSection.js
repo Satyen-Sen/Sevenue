@@ -5,41 +5,49 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
+import { useUserOnBoardingData } from '../../store/UserOnBaordingContext';
+import { useEffect } from 'react';
 
 const MatchingSection = ({ activeStep, setActiveStep }) => {
+  const [userData, setUserData] = useUserOnBoardingData();
   const translations = useTranslations('matching');
-  const [data, setData] = React.useState([
+  const [offeringData, setOfferingData] = React.useState([
     { title: 'Academics', isSelected: false },
     { title: 'Sports', isSelected: false },
     { title: 'Statups', isSelected: false },
     { title: 'Professional Services', isSelected: false },
     { title: 'Social', isSelected: false },
     { title: 'Other', isSelected: false },
+  ]);
+  const [lookingForData, setLookingForData] = React.useState([
     { title: 'Academics', isSelected: false },
     { title: 'Sports', isSelected: false },
     { title: 'Statups', isSelected: false },
     { title: 'Professional Services', isSelected: false },
     { title: 'Social', isSelected: false },
     { title: 'Other', isSelected: false },
-    { title: 'Academics', isSelected: false },
-    { title: 'Sports', isSelected: false },
-    { title: 'Statups', isSelected: false },
-    { title: 'Professional Services', isSelected: false },
-    { title: 'Social', isSelected: false },
-    { title: 'Other', isSelected: false },
-    { title: 'Academics', isSelected: false },
-    { title: 'Sports', isSelected: false },
-    { title: 'Statups', isSelected: false },
-    { title: 'Professional Services', isSelected: false },
-    { title: 'Social', isSelected: false },
-    { title: 'Academics', isSelected: false },
-    { title: 'Sports', isSelected: false },
-    { title: 'Statups', isSelected: false },
-    { title: 'Professional Services', isSelected: false },
-    { title: 'Social', isSelected: false },
   ]);
 
   const handleNext = () => {
+    let lookingFor = [];
+    lookingForData.forEach((item) => {
+      if (item.isSelected) {
+        lookingFor.push(item.title);
+      }
+    });
+    let offering = [];
+    offeringData.forEach((item) => {
+      if (item.isSelected) {
+        offering.push(item.title);
+      }
+    });
+    setUserData({
+      ...userData,
+      matching: {
+        lookingFor,
+        offering,
+      },
+    });
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -48,8 +56,34 @@ const MatchingSection = ({ activeStep, setActiveStep }) => {
   };
 
   const handleSkip = () => {
+    setUserData({
+      ...userData,
+      matching: {
+        lookingFor: [],
+        offering: [],
+      },
+    });
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+
+  useEffect(() => {
+    if (userData && userData.matching) {
+      let _lookingForData = lookingForData;
+      _lookingForData.forEach((data) => {
+        if (userData.matching.lookingFor.findIndex((item) => item === data.title) !== -1) {
+          data.isSelected = true;
+        }
+      });
+      setLookingForData([..._lookingForData]);
+      let _offeringData = offeringData;
+      _offeringData.forEach((data) => {
+        if (userData.matching.offering.findIndex((item) => item === data.title) !== -1) {
+          data.isSelected = true;
+        }
+      });
+      setOfferingData([..._offeringData]);
+    }
+  }, [userData]);
 
   return (
     <React.Fragment>
@@ -84,15 +118,15 @@ const MatchingSection = ({ activeStep, setActiveStep }) => {
         {translations('sub-title-1')}
       </Typography>
       <Box>
-        {data.map((item, index) => (
+        {lookingForData.map((item, index) => (
           <Chip
             // eslint-disable-next-line react/no-array-index-key
             key={`${item.title}-${index}`}
             label={item.title}
             onClick={() => {
-              let _data = data;
+              let _data = lookingForData;
               _data[index].isSelected = !_data[index].isSelected;
-              setData([..._data]);
+              setLookingForData([..._data]);
             }}
             sx={(theme) => ({
               margin: theme.spacing(0, 1, 1, 0),
@@ -116,15 +150,15 @@ const MatchingSection = ({ activeStep, setActiveStep }) => {
         {translations('sub-title-2')}
       </Typography>
       <Box>
-        {data.map((item, index) => (
+        {offeringData.map((item, index) => (
           <Chip
             // eslint-disable-next-line react/no-array-index-key
             key={`${item.title}-${index}`}
             label={item.title}
             onClick={() => {
-              let _data = data;
+              let _data = offeringData;
               _data[index].isSelected = !_data[index].isSelected;
-              setData([..._data]);
+              setOfferingData([..._data]);
             }}
             sx={(theme) => ({
               margin: theme.spacing(0, 1, 1, 0),

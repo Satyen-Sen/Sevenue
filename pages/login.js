@@ -12,10 +12,35 @@ import Facebook from '../src/assets/login/facebook.svg';
 import Google from '../src/assets/login/google.svg';
 import Linkedin from '../src/assets/login/linkedin.svg';
 import PageWrapper from '../src/components/PageWrapper';
+import { useGlobalData } from '../src/store/GlobalContext';
+import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const translations = useTranslations();
+  const { enqueueSnackbar } = useSnackbar();
+  const Router = useRouter();
+  const [, , event] = useGlobalData();
   const [email, setEmail] = React.useState('');
+
+  const handleClick = () => {
+    if (email.trim() === '') {
+      enqueueSnackbar('Email is required', { variant: 'error' });
+      return;
+    }
+    Router.push(`/register?email=${email}`);
+    // UsersService.find({
+    //   query: {
+    //     email: email,
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  };
   return (
     <PageWrapper>
       <Box sx={{ my: 4, width: '100%' }}>
@@ -24,17 +49,16 @@ const Login = () => {
           sx={(theme) => ({
             ...theme.typography.h3,
             fontWeight: theme.typography.fontWeightBold,
-            fontSize: '2.5rem',
+            fontSize: '2.2rem',
           })}
           textAlign={'center'}
         >
-          {'[EVENT NAME]'}
+          {event && event.name}
         </Typography>
         <Typography
           gutterBottom
           sx={(theme) => ({
             ...theme.typography.h4,
-            fontWeight: theme.typography.fontWeightBold,
             fontSize: '1rem',
             color: 'text.secondary',
           })}
@@ -71,6 +95,7 @@ const Login = () => {
         />
         <Button
           fullWidth
+          onClick={handleClick}
           size={'large'}
           sx={(theme) => ({
             marginTop: theme.spacing(1),

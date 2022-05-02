@@ -6,7 +6,14 @@ import { NextIntlProvider } from 'next-intl';
 import defaultMessages from '../messages/shared/en.json';
 import DefaultLayout from '../src/layouts/DefaultLayout';
 import { SnackbarProvider } from 'notistack';
-// import { UserProvider } from '../src/store/UserContext';
+import { GlobalProvider } from '../src/store/GlobalContext';
+import { useEffect } from 'react';
+import restApp, {
+  authCookieName,
+  cookieStorageGetItem,
+  cookieStorageRemoveItem,
+  GetEventService,
+} from '../src/apis/rest.app';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -28,6 +35,35 @@ export default function MyApp(props) {
     ...defaultMessages,
     ...(pageProps.messages || {}),
   };
+
+  const [eventData, setEventData] = React.useState(null);
+  const [user, setUser] = React.useState(null);
+
+  useEffect(() => {
+    const token = cookieStorageGetItem(authCookieName);
+    GetEventService.find({
+      query: {
+        slug: 'red-kite-conference-2022',
+      },
+    }).then((res) => {
+      setEventData(res);
+    });
+    if (token) {
+      restApp
+        .authenticate({
+          strategy: 'jwt',
+          accessToken: token,
+        })
+        .then((res) => {
+          if (res) {
+            setUser(res?.eventUsers);
+          }
+        })
+        .catch(() => {
+          cookieStorageRemoveItem(authCookieName);
+        });
+    }
+  }, []);
 
   return (
     <CacheProvider value={emotionCache}>
@@ -54,15 +90,15 @@ export default function MyApp(props) {
         // timeZone='America/Chicago'
       >
         <SnackbarProvider>
-          {/*<UserProvider value={user}>*/}
-          <Layout
-            // error={pageProps.error}
-            // loadDefaults={typeof Component.loadDefaults === 'undefined' ? true : Component.loadDefaults}
-            meta={meta}
-          >
-            <Component {...pageProps} />
-          </Layout>
-          {/*</UserProvider>*/}
+          <GlobalProvider eventData={eventData} userData={user}>
+            <Layout
+              // error={pageProps.error}
+              // loadDefaults={typeof Component.loadDefaults === 'undefined' ? true : Component.loadDefaults}
+              meta={meta}
+            >
+              <Component {...pageProps} />
+            </Layout>
+          </GlobalProvider>
         </SnackbarProvider>
       </NextIntlProvider>
     </CacheProvider>

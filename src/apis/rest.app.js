@@ -13,6 +13,26 @@ export const authCookieName = 'sev_auth';
  */
 export const cookieStorage = new CookieStorage();
 
+export const cookieStorageGetItem = (key) => {
+  try {
+    return cookieStorage.getItem(key);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Cookie parse fail:', e);
+    return null;
+  }
+};
+
+export const cookieStorageRemoveItem = (key) => {
+  try {
+    return cookieStorage.removeItem(key);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Cookie remove fail:', e);
+    return null;
+  }
+};
+
 const restClient = rest(process.env.NEXT_PUBLIC_API_URI);
 
 /**
@@ -44,4 +64,5 @@ export default restApp;
 //     return uploadService.create(formData);
 // };
 
-// export const UsersService = restApp.service(services['users']);
+export const UsersService = restApp.service(services['users']);
+export const GetEventService = restApp.service(services['get-event']);

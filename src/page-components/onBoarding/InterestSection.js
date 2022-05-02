@@ -5,41 +5,85 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
+import { useUserOnBoardingData } from '../../store/UserOnBaordingContext';
+import { useGlobalData } from '../../store/GlobalContext';
+import { UsersService } from '../../apis/rest.app';
+import { useRouter } from 'next/router';
 
 const InterestSection = ({ activeStep, setActiveStep }) => {
+  const Router = useRouter();
+  const [user, setUser] = useGlobalData();
+  const [userData] = useUserOnBoardingData();
   const translations = useTranslations('interest');
-  const [data, setData] = React.useState([
+  const [fintechData, setFintechData] = React.useState([
     { title: 'Academics', isSelected: false },
     { title: 'Sports', isSelected: false },
     { title: 'Statups', isSelected: false },
     { title: 'Professional Services', isSelected: false },
     { title: 'Social', isSelected: false },
     { title: 'Other', isSelected: false },
-    { title: 'Academics', isSelected: false },
-    { title: 'Sports', isSelected: false },
-    { title: 'Statups', isSelected: false },
-    { title: 'Professional Services', isSelected: false },
-    { title: 'Social', isSelected: false },
-    { title: 'Other', isSelected: false },
-    { title: 'Academics', isSelected: false },
-    { title: 'Sports', isSelected: false },
-    { title: 'Statups', isSelected: false },
-    { title: 'Professional Services', isSelected: false },
-    { title: 'Social', isSelected: false },
-    { title: 'Other', isSelected: false },
-    { title: 'Academics', isSelected: false },
-    { title: 'Sports', isSelected: false },
-    { title: 'Statups', isSelected: false },
-    { title: 'Professional Services', isSelected: false },
-    { title: 'Social', isSelected: false },
-    { title: 'Academics', isSelected: false },
-    { title: 'Sports', isSelected: false },
-    { title: 'Statups', isSelected: false },
-    { title: 'Professional Services', isSelected: false },
-    { title: 'Social', isSelected: false },
   ]);
 
-  const handleNext = () => {};
+  const [solutionsData, setSolutionsData] = React.useState([
+    { title: 'Academics', isSelected: false },
+    { title: 'Sports', isSelected: false },
+    { title: 'Statups', isSelected: false },
+    { title: 'Professional Services', isSelected: false },
+    { title: 'Social', isSelected: false },
+    { title: 'Other', isSelected: false },
+  ]);
+
+  const handleNext = () => {
+    let fintech = [];
+    fintechData.forEach((item) => {
+      if (item.isSelected) {
+        fintech.push(item.title);
+      }
+    });
+    let solutions = [];
+    solutionsData.forEach((item) => {
+      if (item.isSelected) {
+        solutions.push(item.title);
+      }
+    });
+    UsersService.patch(user._id, {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      userInfo: {
+        gender: userData.gender,
+        jobTitle: userData.jobTitle,
+        company: userData.companyName,
+        about: userData.about,
+        phoneNumber: userData.phone,
+        age: userData.age,
+        state: userData.state,
+        howDidYouHearAboutUs: userData.hereAboutUs,
+      },
+      socialLinks: {
+        ...userData.socialLinks,
+      },
+      matching: {
+        ...userData.matching,
+      },
+      interests: [
+        {
+          type: 'Fintech',
+          values: fintech,
+        },
+        {
+          type: 'Solutions',
+          values: solutions,
+        },
+      ],
+    }).then((res) => {
+      setUser({
+        ...user,
+        ...res,
+      });
+      Router.push('/');
+    });
+  };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -78,15 +122,15 @@ const InterestSection = ({ activeStep, setActiveStep }) => {
         {translations('sub-title-1')}
       </Typography>
       <Box>
-        {data.map((item, index) => (
+        {fintechData.map((item, index) => (
           <Chip
             // eslint-disable-next-line react/no-array-index-key
             key={`${item.title}-${index}`}
             label={item.title}
             onClick={() => {
-              let _data = data;
+              let _data = fintechData;
               _data[index].isSelected = !_data[index].isSelected;
-              setData([..._data]);
+              setFintechData([..._data]);
             }}
             sx={(theme) => ({
               margin: theme.spacing(0, 1, 1, 0),
@@ -110,15 +154,15 @@ const InterestSection = ({ activeStep, setActiveStep }) => {
         {translations('sub-title-2')}
       </Typography>
       <Box>
-        {data.map((item, index) => (
+        {solutionsData.map((item, index) => (
           <Chip
             // eslint-disable-next-line react/no-array-index-key
             key={`${item.title}-${index}`}
             label={item.title}
             onClick={() => {
-              let _data = data;
+              let _data = solutionsData;
               _data[index].isSelected = !_data[index].isSelected;
-              setData([..._data]);
+              setSolutionsData([..._data]);
             }}
             sx={(theme) => ({
               margin: theme.spacing(0, 1, 1, 0),

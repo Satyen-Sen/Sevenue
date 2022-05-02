@@ -12,9 +12,12 @@ import LanguageIcon from '@mui/icons-material/Language';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import { useUserOnBoardingData } from '../../store/UserOnBaordingContext';
+import { useEffect } from 'react';
 
 const SocialProfileSection = ({ activeStep, setActiveStep }) => {
   const translations = useTranslations('social');
+  const [userData, setUserData] = useUserOnBoardingData();
   const [data, setData] = React.useState({
     facebook: '',
     website: '',
@@ -31,6 +34,12 @@ const SocialProfileSection = ({ activeStep, setActiveStep }) => {
   };
 
   const handleNext = () => {
+    setUserData({
+      ...userData,
+      socialLinks: {
+        ...data,
+      },
+    });
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -39,8 +48,24 @@ const SocialProfileSection = ({ activeStep, setActiveStep }) => {
   };
 
   const handleSkip = () => {
+    setUserData({
+      ...userData,
+      socialLinks: {
+        facebook: '',
+        website: '',
+        linkedin: '',
+        twitter: '',
+        instagram: '',
+      },
+    });
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+
+  useEffect(() => {
+    if (userData.socialLinks) {
+      setData({ ...userData.socialLinks });
+    }
+  }, [userData]);
 
   return (
     <React.Fragment>
@@ -75,7 +100,7 @@ const SocialProfileSection = ({ activeStep, setActiveStep }) => {
               ),
             }}
             fullWidth
-            id="linkedin"
+            id="website"
             label={translations('form.website')}
             onChange={handleChange}
             placeholder={translations('form.website-placeholder')}

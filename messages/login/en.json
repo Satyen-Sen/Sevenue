@@ -5,6 +5,15 @@
 	"continue": "Continue",
 	"login-with": "Or login with",
 	"powered-by": "Powered by",
+	"register": {
+		"title": "Create your account",
+		"subtitle": "You are signing up with the email:",
+		"firstname": "First name",
+		"lastname": "Last name",
+		"password": "Password",
+		"confirm-password": "Confirm password",
+			"signup": "Sign up"
+	},
 	"password": {
 		"title": "Enter Password",
 		"description": "Enter the 6-digit code sent to {email}",

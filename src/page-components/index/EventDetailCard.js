@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import Facebook from '../../assets/login/facebook.svg';
 import Linkedin from '../../assets/login/linkedin.svg';
+import { useGlobalData } from '../../store/GlobalContext';
+import Link from '../../components/Link';
 
 const TimerBlock = ({ value }) => {
   return (
@@ -84,6 +86,7 @@ TimerSection.defaultProps = {
 
 const EventDetailCard = () => {
   const translations = useTranslations();
+  const [, , event] = useGlobalData();
   return (
     <React.Fragment>
       <Card
@@ -103,7 +106,7 @@ const EventDetailCard = () => {
             fontSize: '2rem',
           })}
         >
-          {'[EVENT NAME]'}
+          {event && event.name}
         </Typography>
         <Typography
           gutterBottom
@@ -124,7 +127,7 @@ const EventDetailCard = () => {
             fontSize: '1.2rem',
           })}
         >
-          {'EventCompanyX'}
+          {event?.org?.name || '---'}
         </Typography>
         <Typography
           gutterBottom
@@ -166,7 +169,9 @@ const EventDetailCard = () => {
           06:00 PM UTC+08:00
         </Typography>
         <Button
+          component={Link}
           fullWidth
+          href={'/login'}
           size={'large'}
           sx={(theme) => ({
             borderRadius: '12px',

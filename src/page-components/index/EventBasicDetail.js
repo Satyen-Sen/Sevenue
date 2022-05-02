@@ -5,9 +5,12 @@ import Typography from '@mui/material/Typography';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useTranslations } from 'next-intl';
+import QuillViewer from '../../components/QuillComponents/QuillViewer ';
+import { useGlobalData } from '../../store/GlobalContext';
 
 const EventBasicDetail = () => {
   const translations = useTranslations();
+  const [, , event] = useGlobalData();
   const [show, setShow] = React.useState(false);
   return (
     <React.Fragment>
@@ -25,41 +28,7 @@ const EventBasicDetail = () => {
             overflow: 'hidden',
           })}
         >
-          <Typography
-            sx={(theme) => ({
-              marginTop: theme.spacing(2),
-              color: theme.palette.text.secondary,
-            })}
-          >
-            Ten years ago Red Kite Community Housing was set up with the aim of providing homes tenants feel proud of,
-            excellent customer service and to realise the potential in our communities.
-          </Typography>
-          <Typography
-            sx={(theme) => ({
-              marginTop: theme.spacing(2),
-              color: theme.palette.text.secondary,
-            })}
-          >
-            Ten years ago Red Kite Community Housing was set up with the aim of providing homes tenants feel proud of,
-            excellent customer service and to realise the potential in our communities. Since then Red Kite has
-            flourished and grown, overcoming challenges while focusing on a positive future. Success has been achieved
-            by being innovative and working together with tenants, staff, board members and community partners to
-            respond to people’s needs and help build thriving communities. Our journey proves that together we can
-            accomplish so much.
-          </Typography>
-          <Typography
-            sx={(theme) => ({
-              marginTop: theme.spacing(2),
-              color: theme.palette.text.secondary,
-            })}
-          >
-            Ten years ago Red Kite Community Housing was set up with the aim of providing homes tenants feel proud of,
-            excellent customer service and to realise the potential in our communities. Since then Red Kite has
-            flourished and grown, overcoming challenges while focusing on a positive future. Success has been achieved
-            by being innovative and working together with tenants, staff, board members and community partners to
-            respond to people’s needs and help build thriving communities. Our journey proves that together we can
-            accomplish so much.
-          </Typography>
+          {event && <QuillViewer html={event.description} />}
         </Box>
         <Box
           onClick={() => setShow(!show)}

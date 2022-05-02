@@ -18,6 +18,8 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             type="text/css"
           />
+          {/*Quill Css*/}
+          <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet" />
           {/* Inject MUI styles first to match with the prepend: true configuration. */}
           {this.props.emotionStyleTags}
         </Head>

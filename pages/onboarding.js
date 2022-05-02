@@ -11,6 +11,7 @@ import ProfileSection from '../src/page-components/onBoarding/ProfileSection';
 import SocialProfileSection from '../src/page-components/onBoarding/SocialProfileSection';
 import MatchingSection from '../src/page-components/onBoarding/MatchingSection';
 import InterestSection from '../src/page-components/onBoarding/InterestSection';
+import { withUserOnBoardingData } from '../src/store/UserOnBaordingContext';
 
 const OnBoarding = () => {
   const translations = useTranslations();
@@ -67,4 +68,4 @@ export const getServerSideProps = async (context) => {
   };
 };
 
-export default OnBoarding;
+export default withUserOnBoardingData(OnBoarding);

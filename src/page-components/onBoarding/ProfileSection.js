@@ -13,6 +13,10 @@ import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
+import { useGlobalData } from '../../store/GlobalContext';
+import { useEffect } from 'react';
+import { useUserOnBoardingData } from '../../store/UserOnBaordingContext';
+import { useSnackbar } from 'notistack';
 
 const gender = [
   {
@@ -31,8 +35,8 @@ const gender = [
 
 const age = [
   {
-    value: '1',
-    label: 'below 18',
+    value: '18 and Below',
+    label: '18 and Below',
   },
   {
     value: '2',
@@ -45,17 +49,20 @@ const age = [
 ];
 
 const state = [
-  { value: 'andhra-pradesh', label: 'Andhra Pradesh' },
-  { value: 'telangana', label: 'Telangana' },
-  { value: 'odisha', label: 'Odisha' },
+  { value: 'Andhra Pradesh', label: 'Andhra Pradesh' },
+  { value: 'Telangana', label: 'Telangana' },
+  { value: 'Odisha', label: 'Odisha' },
 ];
 const hereAboutUs = [
-  { value: 'social', label: 'Here from social media' },
-  { value: 'community', label: 'Online Community' },
-  { value: 'outlets', label: 'Online news outlets' },
+  { value: 'Here from social media', label: 'Here from social media' },
+  { value: 'Online Community', label: 'Online Community' },
+  { value: 'Online news outlets', label: 'Online news outlets' },
 ];
 
 const ProfileSection = ({ setActiveStep }) => {
+  const { enqueueSnackbar } = useSnackbar();
+  const [user, , event] = useGlobalData();
+  const [userData, setUserData] = useUserOnBoardingData();
   const translations = useTranslations('profile');
   const [data, setData] = React.useState({
     firstName: '',
@@ -66,9 +73,9 @@ const ProfileSection = ({ setActiveStep }) => {
     companyName: '',
     about: '',
     phone: '',
-    age: '3',
-    state: 'odisha',
-    hereAboutUs: 'outlets',
+    age: '18 and Below',
+    state: 'Odisha',
+    hereAboutUs: 'Online news outlets',
   });
 
   const handleChange = (e) => {
@@ -85,9 +92,47 @@ const ProfileSection = ({ setActiveStep }) => {
     }));
   };
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  const validate = () => {
+    if (data.firstName === '') {
+      enqueueSnackbar('First Name is required', { variant: 'error' });
+      return false;
+    } else if (data.lastName.trim() === '') {
+      enqueueSnackbar('Last Name is required', { variant: 'error' });
+      return false;
+    } else if (data.email.trim() === '') {
+      enqueueSnackbar('Email is required', { variant: 'error' });
+      return false;
+    } else if (data.phone.trim() === '') {
+      enqueueSnackbar('Phone is required', { variant: 'error' });
+      return false;
+    } else if (data.phone.length !== 10) {
+      enqueueSnackbar('Phone number must be of 10 digits', { variant: 'error' });
+      return false;
+    } else {
+      return true;
+    }
   };
+
+  const handleNext = () => {
+    if (validate()) {
+      setUserData({
+        ...userData,
+        ...data,
+      });
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (!user) return;
+    setData((prevState) => ({
+      ...prevState,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      ...userData,
+    }));
+  }, [user]);
 
   return (
     <React.Fragment>
@@ -99,7 +144,7 @@ const ProfileSection = ({ setActiveStep }) => {
           color: theme.palette.primary.main,
         })}
       >
-        {translations('title', { event: '[EVENT NAME]' })}
+        {translations('title', { event: event?.name })}
       </Typography>
       <Typography
         sx={(theme) => ({
@@ -167,7 +212,9 @@ const ProfileSection = ({ setActiveStep }) => {
             fullWidth
             id="email"
             label={translations('form.email')}
-            onChange={handleChange}
+            onChange={() => {
+              enqueueSnackbar('Email can not be modified', { variant: 'warning' });
+            }}
             placeholder={translations('form.enter-email')}
             type="email"
             value={data.email}
