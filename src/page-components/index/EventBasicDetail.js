@@ -7,6 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useTranslations } from 'next-intl';
 import QuillViewer from '../../components/QuillComponents/QuillViewer ';
 import { useGlobalData } from '../../store/GlobalContext';
+import Skeleton from '@mui/material/Skeleton';
 
 const EventBasicDetail = () => {
   const translations = useTranslations();
@@ -28,7 +29,12 @@ const EventBasicDetail = () => {
             overflow: 'hidden',
           })}
         >
-          {event && <QuillViewer html={event.description} />}
+          {event ? (
+            <QuillViewer html={event.description} />
+          ) : (
+            // eslint-disable-next-line react/no-array-index-key
+            new Array(12).fill(0).map((_, index) => <Skeleton animation="wave" key={`skeleton-${index}`} />)
+          )}
         </Box>
         <Box
           onClick={() => setShow(!show)}

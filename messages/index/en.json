@@ -6,7 +6,8 @@
 		"starting-in": "Starting In",
 		"event-time": "Event Time",
 		"register-now": "Register Now",
-		"stay-updated": "Stay Updated"
+		"stay-updated": "Stay Updated",
+		"date": "{start} - {end}"
 	},
 	"tab": {
 		"schedule": "Schedule",

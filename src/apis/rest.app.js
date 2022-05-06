@@ -66,3 +66,4 @@ export default restApp;
 
 export const UsersService = restApp.service(services['users']);
 export const GetEventService = restApp.service(services['get-event']);
+export const CheckEmailService = restApp.service(services['check-email']);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-import { useTranslations } from 'next-intl';
+import { useIntl, useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
@@ -9,6 +9,45 @@ import Facebook from '../../assets/login/facebook.svg';
 import Linkedin from '../../assets/login/linkedin.svg';
 import { useGlobalData } from '../../store/GlobalContext';
 import Link from '../../components/Link';
+import { useEffect } from 'react';
+import Skeleton from '@mui/material/Skeleton';
+import MuiLink from '@mui/material/Link';
+
+const SocialButton = ({ icon, url, alt, isMuiIcon }) => {
+  return (
+    <Button
+      color={'inherit'}
+      component={MuiLink}
+      href={url}
+      sx={(theme) => ({
+        width: theme.spacing(2.5),
+        height: theme.spacing(2.5),
+        minWidth: theme.spacing(0),
+        padding: theme.spacing(0),
+        margin: theme.spacing(2, 0, 0, 1),
+      })}
+      target={'_blank'}
+    >
+      {isMuiIcon ? (
+        { icon }
+      ) : (
+        //eslint-disable-next-line @next/next/no-img-element
+        <img alt={alt || 'Img'} height={'100%'} src={icon} width={'100%'} />
+      )}
+    </Button>
+  );
+};
+
+SocialButton.propTypes = {
+  icon: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  isMuiIcon: PropTypes.bool,
+};
+
+SocialButton.defaultProps = {
+  isMuiIcon: false,
+};
 
 const TimerBlock = ({ value }) => {
   return (
@@ -87,6 +126,56 @@ TimerSection.defaultProps = {
 const EventDetailCard = () => {
   const translations = useTranslations();
   const [, , event] = useGlobalData();
+  const intl = useIntl();
+
+  const startDate = intl.formatDateTime(new Date(event?.startDate || new Date()), {
+    month: 'long',
+    day: '2-digit',
+  });
+  const endDate = intl.formatDateTime(new Date(event?.endDate || new Date()), {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+  });
+  const startDateInfo = intl.formatDateTime(new Date(event?.startDate || new Date()), {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short',
+  });
+
+  // console.log(startDate, '-', endDate, '-', startDateInfo);
+
+  const dateTime = intl.formatDateTime(new Date(), {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short',
+  });
+
+  function duration(t0, t1) {
+    let d = new Date(t1) - new Date(t0);
+    const diffInSeconds = Math.abs(d) / 1000;
+    const day = Math.floor(diffInSeconds / 60 / 60 / 24);
+    const hour = Math.floor((diffInSeconds / 60 / 60) % 24);
+    const minute = Math.floor((diffInSeconds / 60) % 60);
+    const second = Math.floor(diffInSeconds % 60);
+    return { day, hour, minute, second };
+  }
+  const [time, setTime] = React.useState(duration(dateTime, event?.startDate));
+  const [trigger, setTrigger] = React.useState(false);
+  useEffect(() => {
+    setTime(duration(dateTime, event?.startDate));
+    const timer = setInterval(() => {
+      setTrigger((prev) => !prev);
+    }, 1000 * 60);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [dateTime, trigger]);
+
   return (
     <React.Fragment>
       <Card
@@ -106,7 +195,7 @@ const EventDetailCard = () => {
             fontSize: '2rem',
           })}
         >
-          {event && event.name}
+          {event ? event.name : <Skeleton animation="wave" />}
         </Typography>
         <Typography
           gutterBottom
@@ -127,7 +216,7 @@ const EventDetailCard = () => {
             fontSize: '1.2rem',
           })}
         >
-          {event?.org?.name || '---'}
+          {event?.org?.name || <Skeleton animation="wave" />}
         </Typography>
         <Typography
           gutterBottom
@@ -141,9 +230,9 @@ const EventDetailCard = () => {
           {translations('card.starting-in')}
         </Typography>
         <Box display={'flex'} mt={0.5}>
-          <TimerSection label={'DAYS'} value={15} />
-          <TimerSection label={'HOURS'} value={8} />
-          <TimerSection hasExtension={false} label={'MINUTES'} value={45} />
+          <TimerSection label={'DAYS'} value={time.day || 0} />
+          <TimerSection label={'HOURS'} value={time.hour || 0} />
+          <TimerSection hasExtension={false} label={'MINUTES'} value={time.minute || 0} />
         </Box>
         <Typography
           gutterBottom
@@ -164,9 +253,12 @@ const EventDetailCard = () => {
             fontSize: '1rem',
           })}
         >
-          30 - 31 December 2022,
+          {translations('card.date', {
+            start: startDate,
+            end: endDate,
+          })}
           <br />
-          06:00 PM UTC+08:00
+          {startDateInfo}
         </Typography>
         <Button
           component={Link}
@@ -194,32 +286,8 @@ const EventDetailCard = () => {
           >
             {translations('card.stay-updated')}
           </Typography>
-          <Button
-            color={'inherit'}
-            sx={(theme) => ({
-              width: theme.spacing(2.5),
-              height: theme.spacing(2.5),
-              minWidth: theme.spacing(0),
-              padding: theme.spacing(0),
-              margin: theme.spacing(2, 0, 0, 1),
-            })}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt={'Facebook'} height={'100%'} src={Facebook} width={'100%'} />
-          </Button>
-          <Button
-            color={'inherit'}
-            sx={(theme) => ({
-              width: theme.spacing(2.5),
-              height: theme.spacing(2.5),
-              minWidth: theme.spacing(0),
-              padding: theme.spacing(0),
-              margin: theme.spacing(2, 0, 0, 1),
-            })}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img alt={'Linkedin'} height={'100%'} src={Linkedin} width={'100%'} />
-          </Button>
+          <SocialButton alt={'facebook'} icon={Facebook} url={'https://www.facebook.com/'} />
+          <SocialButton alt={'linkedin'} icon={Linkedin} url={'https://www.linkedin.com/feed/'} />
         </Box>
       </Card>
     </React.Fragment>

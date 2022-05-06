@@ -41,12 +41,18 @@ export default function MyApp(props) {
 
   useEffect(() => {
     const token = cookieStorageGetItem(authCookieName);
+    const eventDetails = localStorage.getItem('sev-event');
+    // todo Also check if slug matches then only set event data stored in localStore
+    if (eventDetails) {
+      setEventData(JSON.parse(eventDetails));
+    }
     GetEventService.find({
       query: {
         slug: 'red-kite-conference-2022',
       },
     }).then((res) => {
       setEventData(res);
+      localStorage.setItem('sev-event', JSON.stringify(res));
     });
     if (token) {
       restApp
@@ -86,8 +92,9 @@ export default function MyApp(props) {
         // Also an explicit time zone is helpful to ensure dates render the
         // same way on the client as on the server, which might be located
         // in a different time zone.
-        timeZone="UTC"
-        // timeZone='America/Chicago'
+        // timeZone="UTC"
+        timeZone={eventData?.timezone || 'America/Chicago'}
+        // timeZone="America/Chicago"
       >
         <SnackbarProvider>
           <GlobalProvider eventData={eventData} userData={user}>

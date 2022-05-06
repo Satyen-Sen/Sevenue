@@ -2,5 +2,6 @@
     "authentication": "/v3/authentication",
     "upload": "/v1/upload",
     "get-event": "/v3/get-event",
-    "users": "/v3/users"
+    "users": "/v3/users",
+    "check-email": "/v3/check-email"
 }

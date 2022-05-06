@@ -14,9 +14,17 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '../src/components/Link';
+import { useSnackbar } from 'notistack';
+import { useRouter } from 'next/router';
+import restApp from '../src/apis/rest.app';
+import { useGlobalData } from '../src/store/GlobalContext';
 
 const Password = () => {
   const translations = useTranslations();
+  const [, setUser] = useGlobalData();
+  const Router = useRouter();
+  const { email } = Router.query;
+  const { enqueueSnackbar } = useSnackbar();
   const [password, setPassword] = React.useState('');
   const [show, setShow] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -26,6 +34,32 @@ const Password = () => {
   const [checked, setChecked] = React.useState(false);
   const handleChange = (event) => {
     setChecked(event.target.checked);
+  };
+  const handleLogin = () => {
+    if (password.trim() === '') {
+      enqueueSnackbar('Password can not be empty', { variant: 'error' });
+      return;
+    } else if (checked === false) {
+      enqueueSnackbar('You must agree to the terms and conditions', { variant: 'error' });
+      return;
+    } else {
+      restApp
+        .authenticate({
+          strategy: 'local',
+          email,
+          password,
+        })
+        .then((res) => {
+          if (res) {
+            enqueueSnackbar('Login successfully', { variant: 'success' });
+            setUser(res?.eventUsers);
+            Router.push('/');
+          }
+        })
+        .catch((err) => {
+          enqueueSnackbar((err && err.message) || 'Something went wrong', { variant: 'error' });
+        });
+    }
   };
   return (
     <PageWrapper>
@@ -152,6 +186,7 @@ const Password = () => {
         <Box display={'flex'}>
           <Button
             fullWidth
+            onClick={handleLogin}
             size={'large'}
             sx={(theme) => ({
               marginTop: theme.spacing(1),

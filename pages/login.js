@@ -15,6 +15,7 @@ import PageWrapper from '../src/components/PageWrapper';
 import { useGlobalData } from '../src/store/GlobalContext';
 import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
+import { CheckEmailService } from '../src/apis/rest.app';
 
 const Login = () => {
   const translations = useTranslations();
@@ -28,18 +29,23 @@ const Login = () => {
       enqueueSnackbar('Email is required', { variant: 'error' });
       return;
     }
-    Router.push(`/register?email=${email}`);
-    // UsersService.find({
-    //   query: {
-    //     email: email,
-    //   },
-    // })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    // Router.push(`/register?email=${email}`);
+    CheckEmailService.find({
+      query: {
+        email: email,
+        org: event?.org?._id,
+      },
+    })
+      .then((res) => {
+        if (res && res.userExists) {
+          Router.push(`/password?email=${email}`);
+        } else {
+          Router.push(`/register?email=${email}`);
+        }
+      })
+      .catch((err) => {
+        enqueueSnackbar((err && err.message) || 'Something went wrong', { variant: 'error' });
+      });
   };
   return (
     <PageWrapper>

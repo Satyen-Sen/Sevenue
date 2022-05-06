@@ -55,17 +55,6 @@ function a11yProps(index) {
 
 const Index = () => {
   const translations = useTranslations();
-  // const [height, setHeight] = React.useState('230px');
-  // const intl = useIntl();
-  // const dateTime = intl.formatDateTime(new Date(), {
-  //   year: 'numeric',
-  //   month: 'long',
-  //   day: 'numeric',
-  //   hour: 'numeric',
-  //   minute: 'numeric',
-  //   second: 'numeric',
-  //   timeZoneName: 'short',
-  // });
 
   const [value, setValue] = React.useState(0);
 
