@@ -3,6 +3,39 @@
 		"default": {
 			"login": "Login",
 			"register": "Registered already?"
+		},
+		"dashboard": {
+			"drawer": {
+				"enter-lobby": "Enter Lobby",
+				"stage-agenda": "Stage/Agenda",
+				"exhibitors": "Exhibitors",
+				"speakers": "Speakers",
+				"people": "People",
+				"lounge": "Lounge",
+				"rooms": "Rooms",
+				"contests": "Contests",
+				"leaderboard": "Leaderboard",
+				"photo-booth": "Photo Booth"
+			},
+			"header": {
+				"description": "{start} - {end}",
+				"feed": "Feed",
+				"live-now": "Live Now",
+				"my-schedule": "My Schedule",
+				"my-bookmarks": "My Bookmarks",
+				"my-briefcases": "My Briefcases",
+				"leaderboard": "Leaderboard",
+				"people": "People",
+				"messages": "Messages",
+				"notifications": "Notifications"
+			},
+			"profile": {
+				"name": "{firstName} {lastName}",
+				"edit-profile": "Edit profile",
+				"my-tickets": "My tickets",
+				"settings": "Settings",
+				"logout": "Logout"
+			}
 		}
 	}
 }

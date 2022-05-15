@@ -53,7 +53,7 @@ const Password = () => {
           if (res) {
             enqueueSnackbar('Login successfully', { variant: 'success' });
             setUser(res?.eventUsers);
-            Router.push('/');
+            Router.push('/dashboard');
           }
         })
         .catch((err) => {
