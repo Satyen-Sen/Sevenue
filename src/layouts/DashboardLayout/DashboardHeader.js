@@ -171,13 +171,13 @@ const DashboardHeader = () => {
                       },
                     })}
                   >
-                    <Box display={'flex'} flexDirection={'column'} pt={0.5}>
+                    <Box alignItems={'center'} display={'flex'} flexDirection={'column'} pt={0.5}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         alt={each.name}
-                        height={'18px'}
+                        height={'19px'}
                         src={isActive ? each.activeIcon : each.icon}
-                        width={'auto'}
+                        width={'19px'}
                       />
                       <Typography
                         sx={(theme) => ({
