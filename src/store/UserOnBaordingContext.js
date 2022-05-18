@@ -24,6 +24,6 @@ export const withUserOnBoardingData = (Component) => {
     </UserOnBoardingProvider>
   );
 
-  if (typeof Component.layout !== 'undefined') WithUserOnBoardingData.layout = Component.layout;
+  if (typeof Component.Layout !== 'undefined') WithUserOnBoardingData.Layout = Component.Layout;
   return WithUserOnBoardingData;
 };

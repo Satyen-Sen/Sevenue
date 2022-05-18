@@ -1,4 +1,13 @@
 {
+  "edit-profile": {
+    "title": "Edit Profile",
+    "label": {
+      "profile": "Personal Info",
+      "interests": "Interests",
+      "looking-for": "Looking For/Offering",
+      "networking": "Networking"
+    }
+  },
   "label": {
     "profile": "Profile",
     "social": "Social",
@@ -64,7 +73,16 @@
     "sub-title-1": "Fintech",
     "sub-title-2": "Solutions",
     "next": "Join Event",
+    "go-next": "Next",
     "previous": "Previous",
     "skip": "Skip"
+  },
+  "networking": {
+    "meeting": "Meeting Requests",
+    "on": "On",
+    "off": "Off",
+    "days": "Networking Days",
+    "save": "Save",
+    "previous": "Previous"
   }
 }

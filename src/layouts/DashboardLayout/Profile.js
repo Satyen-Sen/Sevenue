@@ -16,6 +16,7 @@ import { useGlobalData } from '../../store/GlobalContext';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
 import restApp, { authCookieName, cookieStorageRemoveItem } from '../../apis/rest.app';
+import Link from '../../components/Link';
 
 const Profile = () => {
   const translations = useTranslations('layout.dashboard.profile');
@@ -120,7 +121,7 @@ const Profile = () => {
             marginBottom: theme.spacing(1),
           })}
         />
-        <MenuItem>
+        <MenuItem component={Link} href={'/edit-profile'}>
           <ListItemIcon>
             <ModeEditOutlineOutlinedIcon color={'primary'} fontSize="small" />
           </ListItemIcon>

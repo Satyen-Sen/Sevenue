@@ -62,7 +62,7 @@ const SocialProfileSection = ({ activeStep, setActiveStep }) => {
   };
 
   useEffect(() => {
-    if (userData.socialLinks) {
+    if (userData) {
       setData({ ...userData.socialLinks });
     }
   }, [userData]);
