@@ -28,6 +28,7 @@ import ActiveLeaderboard from '../../assets/dashboard/active-leaderboard.svg';
 import PhotoBooth from '../../assets/dashboard/photo-booth.svg';
 import ActivePhotoBooth from '../../assets/dashboard/active-photo-booth.svg';
 import { useTranslations } from 'next-intl';
+import Link from '../../components/Link';
 
 const drawerOpenWidth = 245;
 const drawerCloseWidth = 65;
@@ -138,6 +139,8 @@ const DashboardDrawer = () => {
         {menu.map((each) => (
           <ListItem disablePadding key={each.label} sx={{ display: 'block' }}>
             <ListItemButton
+              component={Link}
+              href={each.href}
               sx={(theme) => ({
                 minHeight: 44,
                 justifyContent: open ? 'initial' : 'center',

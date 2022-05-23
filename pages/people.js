@@ -1,112 +1,113 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import { Box, Button } from '@mui/material/';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import Divider from '@mui/material/Divider';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import Grid from "@mui/material/Grid";
-import Avatar from '@mui/material/Avatar';
-import ForumIcon from '@mui/icons-material/Forum';
-import EventNoteSharpIcon from '@mui/icons-material/EventNoteSharp';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Grid from '@mui/material/Grid';
+import getPageMessages from '../utils/getPageMessages';
+import DashboardLayout from '../src/layouts/DashboardLayout';
+import { useTranslations } from 'next-intl';
+import PeopleCard from '../src/page-components/People/PeopleCard';
+import { useState } from 'react';
+import { UsersService } from '../src/apis/rest.app';
+import InfiniteScroll from '../src/components/InfiniteScroll';
+import Skeleton from '@mui/material/Skeleton';
 
+const People = () => {
+  const translations = useTranslations();
+  const [hasMore, setHasMore] = useState(true);
+  const [total, setTotal] = useState(0);
+  const [people, setPeople] = useState([]);
 
-export default function people() {
-    return (
-        <Box sx={{ my: 4, width: '100%' }}>
-            <Card>
+  const loadPeople = () => {
+    UsersService.find({
+      query: {
+        $skip: people.length,
+        $limit: 9,
+        $sort: {
+          createdAt: -1,
+        },
+      },
+    })
+      .then((response) => {
+        const { data, total } = response;
+        setTotal(total);
+        const result = [...people, ...data];
+        setHasMore(result.length < total);
+        setPeople(result);
+      })
+      .catch(() => {
+        setHasMore(false);
+      });
+  };
+  return (
+    <React.Fragment>
+      <Typography
+        sx={(theme) => ({
+          ...theme.typography.h6,
+          fontWeight: theme.typography.fontWeightBold,
+          fontSize: '1.2rem',
+          marginBottom: theme.spacing(2),
+        })}
+      >
+        {translations('title')}
+      </Typography>
+      <Divider />
+      <Typography
+        sx={(theme) => ({
+          ...theme.typography.h6,
+          fontWeight: theme.typography.fontWeightBold,
+          fontSize: '1.2rem',
+          my: theme.spacing(2),
+        })}
+      >
+        {translations('your-match')}
+      </Typography>
+      <Typography
+        sx={(theme) => ({
+          ...theme.typography.h6,
+          fontWeight: theme.typography.fontWeightBold,
+          fontSize: '1.2rem',
+          my: theme.spacing(2),
+        })}
+      >
+        {translations('all-attendees', { count: total })}
+      </Typography>
+      <InfiniteScroll
+        hasMore={hasMore}
+        loadMore={loadPeople}
+        loader={
+          <Grid container key={'all-teacher'} spacing={2} sx={{ mt: 2 }}>
+            {[...Array(9)].map((_, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Grid item key={index} md={4} sm={6} xs={12}>
+                <Skeleton animation={'wave'} height={110} sx={{ borderRadius: 1 }} variant={'rectangular'} />
+              </Grid>
+            ))}
+          </Grid>
+        }
+        pageStart={0}
+      >
+        <Grid container spacing={2}>
+          {people.map((person) => (
+            <Grid item key={person?._id} md={4} sm={6} xs={12}>
+              <PeopleCard person={person} />
+            </Grid>
+          ))}
+        </Grid>
+      </InfiniteScroll>
+    </React.Fragment>
+  );
+};
 
-                <CardHeader
+export const getServerSideProps = async (context) => {
+  const { locale } = context;
 
-                    action={
-                        <IconButton aria-label="settings">
-                            <SearchIcon sx={{ fontSize: 40, color: "#b9394f" }} />
-                        </IconButton>
+  return {
+    props: {
+      ...getPageMessages('people', locale),
+    },
+  };
+};
 
-                    }
-                    title="People"
-                ></CardHeader>
+People.Layout = DashboardLayout;
 
-                <Divider />
-                <Box>
-                    <Typography
-                        sx={(theme) => ({
-                            ...theme.typography.subtitle1,
-                            fontSize: '1.3rem',
-                            fontWeight: theme.typography.fontWeightBold,
-                            marginBottom: theme.spacing(3),
-                            marginLeft: theme.spacing(2)
-                        })}
-                    >
-                        Your Matches
-                    </Typography>
-                  
-                </Box>
-                <Box alignItems="right" justifyContent={'right'} width={'100%'} display={'flex'} >
-                    <ArrowBackIosNewIcon/>
-                    <ArrowForwardIosIcon/>
-                            </Box>
-                <Box width={380}>
-                    <Grid container spacing={2} px={2}>
-                        <Grid item sm={12} xs={12}>
-                            <Box px={2} pt={2} pb={1} bgcolor={'#f4f4f6'} borderRadius={2}>
-                                <Box display={'flex'} >
-                                    <Avatar   >
-
-                                    </Avatar>
-                                    <Box display={'flex'} flexDirection={'column'} ml={2}>
-
-                                        <Typography style={{ fontSize: 11, fontWeight: "bold" }} color="default">
-                                            Abdullah Omar
-                                        </Typography>
-                                        <Typography style={{ fontSize: 11 }} color={'textSecondary'}>
-                                            General Manager, Light Up 7 Lab
-                                        </Typography>
-                                        <Box display={'flex'} alignItems={'center'} mt={1} width={'100%'} zIndex={200}>
-                                            <ForumIcon sx={{ color: "#b9394f" }} />
-                                            <Button style={{
-                                                textTransform: 'capitalize', fontSize: 10, fontWeight: "bold", color: "black",
-                                                borderRadius: 15
-                                            }} > Send Message
-                                            </Button>
-                                            <EventNoteSharpIcon sx={{ color: "#b9394f" }} />
-                                            <Button style={{
-                                                textTransform: 'capitalize', fontSize: 10, fontWeight: "bold", color: "black",
-                                                borderRadius: 15
-                                            }} >Schedule Meeting
-                                            </Button>
-                                        </Box>
-                                    </Box>
-                                </Box>
-
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </Box>
-                <Box sx={{ paddingTop: "20px" }}>
-                    <Typography
-                        sx={(theme) => ({
-                            ...theme.typography.subtitle1,
-                            fontSize: '1.3rem',
-                            fontWeight: theme.typography.fontWeightBold,
-                            marginBottom: theme.spacing(3),
-                            marginLeft: theme.spacing(2)
-                        })}
-                    >
-                        All attendees (254)
-                    </Typography>
-                 
-                </Box>
-            </Card>
-        </Box>
-
-    );
-}
+export default People;
