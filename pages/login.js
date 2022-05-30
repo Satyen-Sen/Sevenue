@@ -16,6 +16,7 @@ import { useGlobalData } from '../src/store/GlobalContext';
 import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import { CheckEmailService } from '../src/apis/rest.app';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const Login = () => {
   const translations = useTranslations();
@@ -23,13 +24,14 @@ const Login = () => {
   const Router = useRouter();
   const [, , event] = useGlobalData();
   const [email, setEmail] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
 
   const handleClick = () => {
     if (email.trim() === '') {
       enqueueSnackbar('Email is required', { variant: 'error' });
       return;
     }
-    // Router.push(`/register?email=${email}`);
+    setLoading(true);
     CheckEmailService.find({
       query: {
         email: email,
@@ -38,13 +40,18 @@ const Login = () => {
     })
       .then((res) => {
         if (res && res.userExists) {
-          Router.push(`/password?email=${email}`);
+          Router.push(`/password?email=${email}`).then(() => {
+            setLoading(false);
+          });
         } else {
-          Router.push(`/register?email=${email}`);
+          Router.push(`/register?email=${email}`).then(() => {
+            setLoading(false);
+          });
         }
       })
       .catch((err) => {
         enqueueSnackbar((err && err.message) || 'Something went wrong', { variant: 'error' });
+        setLoading(false);
       });
   };
   return (
@@ -99,8 +106,9 @@ const Login = () => {
           value={email}
           variant="outlined"
         />
-        <Button
+        <LoadingButton
           fullWidth
+          loading={loading}
           onClick={handleClick}
           size={'large'}
           sx={(theme) => ({
@@ -112,7 +120,7 @@ const Login = () => {
           variant={'contained'}
         >
           {translations('continue')}
-        </Button>
+        </LoadingButton>
         <Typography
           align={'center'}
           sx={(theme) => ({

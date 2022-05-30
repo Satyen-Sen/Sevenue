@@ -18,6 +18,7 @@ import { useSnackbar } from 'notistack';
 import { useRouter } from 'next/router';
 import restApp from '../src/apis/rest.app';
 import { useGlobalData } from '../src/store/GlobalContext';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const Password = () => {
   const translations = useTranslations();
@@ -32,6 +33,7 @@ const Password = () => {
   };
 
   const [checked, setChecked] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
@@ -43,6 +45,7 @@ const Password = () => {
       enqueueSnackbar('You must agree to the terms and conditions', { variant: 'error' });
       return;
     } else {
+      setLoading(true);
       restApp
         .authenticate({
           strategy: 'local',
@@ -53,11 +56,14 @@ const Password = () => {
           if (res) {
             enqueueSnackbar('Login successfully', { variant: 'success' });
             setUser(res?.eventUsers);
-            Router.push('/dashboard');
+            Router.push('/dashboard').then(() => {
+              setLoading(false);
+            });
           }
         })
         .catch((err) => {
           enqueueSnackbar((err && err.message) || 'Something went wrong', { variant: 'error' });
+          setLoading(false);
         });
     }
   };
@@ -184,8 +190,9 @@ const Password = () => {
           </Typography>
         </Box>
         <Box display={'flex'}>
-          <Button
+          <LoadingButton
             fullWidth
+            loading={loading}
             onClick={handleLogin}
             size={'large'}
             sx={(theme) => ({
@@ -198,7 +205,7 @@ const Password = () => {
             variant={'contained'}
           >
             {translations('login')}
-          </Button>
+          </LoadingButton>
           <Button
             component={Link}
             fullWidth

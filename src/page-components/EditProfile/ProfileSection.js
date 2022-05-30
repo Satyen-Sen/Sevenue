@@ -14,6 +14,7 @@ import { useGlobalData } from '../../store/GlobalContext';
 import { useEffect } from 'react';
 import { useUserOnBoardingData } from '../../store/UserOnBaordingContext';
 import { useSnackbar } from 'notistack';
+import CropperDialog from '../../components/Crop/CropperDialog';
 
 const gender = [
   {
@@ -48,6 +49,23 @@ const ProfileSection = ({ setActiveStep }) => {
     state: 'Odisha',
     hereAboutUs: 'Online news outlets',
   });
+
+  const [image, setImage] = React.useState(user ? user.avatar : null);
+  const [src, setSrc] = React.useState(null);
+  const [show, setShow] = React.useState(false);
+  console.log('img-->', image);
+
+  const dataURLtoFile = (dataurl, filename) => {
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  };
 
   const handleChange = (e) => {
     setData((prevState) => ({
@@ -122,6 +140,9 @@ const ProfileSection = ({ setActiveStep }) => {
               badgeContent={
                 <IconButton
                   color={'primary'}
+                  onClick={() => {
+                    setShow(true);
+                  }}
                   size={'small'}
                   sx={(theme) => ({
                     backgroundColor: theme.palette.primary.main,
@@ -138,7 +159,7 @@ const ProfileSection = ({ setActiveStep }) => {
               }
               overlap="circular"
             >
-              <Avatar alt="Travis Howard" sx={{ width: 136, height: 136 }} />
+              <Avatar alt="Travis Howard" src={image} sx={{ width: 136, height: 136 }} />
             </Badge>
           </Box>
         </Grid>
@@ -320,6 +341,28 @@ const ProfileSection = ({ setActiveStep }) => {
           {translations('form.next')}
         </Button>
       </Box>
+      <CropperDialog
+        aspectRatio={1}
+        cancel={() => {
+          if (src) setSrc(null);
+          else setShow(false);
+        }}
+        cancelLabel={src ? 'Clear Image' : 'Cancel'}
+        dismiss={() => {
+          setShow(false);
+        }}
+        okLabel={'Save'}
+        onCropped={(data) => {
+          setShow(false);
+          setSrc(data);
+          setImage(data);
+        }}
+        onSelected={(s) => {
+          setSrc(s);
+        }}
+        show={show}
+        src={src}
+      />
     </React.Fragment>
   );
 };

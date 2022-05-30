@@ -2036,6 +2036,11 @@ axobject-query@^2.2.0:
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.2.0.tgz#943d47e10c0b704aa42275e20edf3722648989be"
   integrity sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==
 
+babel-core@7.0.0-bridge.0:
+  version "7.0.0-bridge.0"
+  resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
+  integrity sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==
+
 babel-eslint@^8.2.6:
   version "8.2.6"
   resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-8.2.6.tgz#6270d0c73205628067c0f7ae1693a9e797acefd9"
@@ -2608,6 +2613,11 @@ create-react-class@^15.6.0:
   dependencies:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
+
+cropperjs@^1.5.5:
+  version "1.5.12"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.5.12.tgz#d9c0db2bfb8c0d769d51739e8f916bbc44e10f50"
+  integrity sha512-re7UdjE5UnwdrovyhNzZ6gathI4Rs3KGCBSc8HCIjUo5hO42CtzyblmWLj6QWVw7huHyDMfpKxhiO2II77nhDw==
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -5812,6 +5822,15 @@ raw-loader@^2.0.0:
   dependencies:
     loader-utils "^1.1.0"
     schema-utils "^1.0.0"
+
+react-cropper@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-cropper/-/react-cropper-1.3.0.tgz#7de0c09a440d62f72c0df5f104d4ad7598cc3bf0"
+  integrity sha512-A14BUmeOD84ulNp/eChHOBuChVYatPodhc43wZzO9ZSFoM2Ta8O9P+ZXURyseF/R8v32a6YyMVcBUShj7XqcbA==
+  dependencies:
+    babel-core "7.0.0-bridge.0"
+    cropperjs "^1.5.5"
+    prop-types "^15.5.8"
 
 react-dom-factories@^1.0.0:
   version "1.0.2"

@@ -14,6 +14,8 @@ import restApp, {
   cookieStorageRemoveItem,
   GetEventService,
 } from '../src/apis/rest.app';
+import 'cropperjs/dist/cropper.css';
+// import { useRouter } from 'next/router';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -21,7 +23,9 @@ const clientSideEmotionCache = createEmotionCache();
 const Noop = ({ children }) => children;
 
 export default function MyApp(props) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const { Component, emotionCache = clientSideEmotionCache, pageProps, globalProps } = props;
+  const { event } = globalProps;
+  // const Router = useRouter();
 
   let Layout = DefaultLayout;
 
@@ -33,27 +37,26 @@ export default function MyApp(props) {
 
   const updatedMessage = {
     ...defaultMessages,
-    ...(pageProps.messages || {}),
+    ...((pageProps && pageProps.messages) || {}),
   };
 
   const [eventData, setEventData] = React.useState(null);
   const [user, setUser] = React.useState(null);
+  // const [loading, setLoading] = React.useState(true);
+  // const withOutLoginPages = ['/login', '/password'];
+  // const checkAccess = ({ role }) => {
+  //   if (role === 'host') {
+  //     return true;
+  //   }
+  //   return false;
+  // };
 
   useEffect(() => {
+    // setLoading(true);
+
     const token = cookieStorageGetItem(authCookieName);
-    const eventDetails = localStorage.getItem('sev-event');
-    // todo Also check if slug matches then only set event data stored in localStore
-    if (eventDetails) {
-      setEventData(JSON.parse(eventDetails));
-    }
-    GetEventService.find({
-      query: {
-        slug: 'red-kite-conference-2022',
-      },
-    }).then((res) => {
-      setEventData(res);
-      localStorage.setItem('sev-event', JSON.stringify(res));
-    });
+    setEventData(event);
+    // if (event && !event.isLive) Router.push('/not-found');
     if (token) {
       restApp
         .authenticate({
@@ -88,7 +91,7 @@ export default function MyApp(props) {
         messages={updatedMessage}
         // Providing an explicit value for `now` ensures consistent formatting of
         // relative values regardless of the server or client environment.
-        now={new Date(pageProps.now)}
+        // now={new Date(pageProps.now)}
         // Also an explicit time zone is helpful to ensure dates render the
         // same way on the client as on the server, which might be located
         // in a different time zone.
@@ -112,8 +115,27 @@ export default function MyApp(props) {
   );
 }
 
+MyApp.getInitialProps = async (context) => {
+  const { ctx } = context;
+  const { req } = ctx;
+  const { host: hostname } = req.headers;
+  const event = await GetEventService.find({
+    query: {
+      slug: 'red-kite-conference-2022',
+    },
+  });
+
+  return {
+    globalProps: {
+      hostname,
+      event,
+    },
+  };
+};
+
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
+  globalProps: PropTypes.object.isRequired,
 };
