@@ -85,15 +85,15 @@ const EditProfile = () => {
               <CustomTab label={translations('edit-profile.label.profile')} {...a11yProps(0)} />
               <CustomTab label={translations('edit-profile.label.interests')} {...a11yProps(1)} />
               <CustomTab label={translations('edit-profile.label.looking-for')} {...a11yProps(2)} />
-              <CustomTab label={translations('edit-profile.label.networking')} {...a11yProps(3)} />
+              {/*<CustomTab label={translations('edit-profile.label.networking')} {...a11yProps(3)} />*/}
             </Tabs>
           </Box>
         </Box>
         <Box mb={6}>
-          {activeStep === 0 && <ProfileSection setActiveStep={setActiveStep} />}
-          {activeStep === 1 && <InterestSection activeStep={activeStep} setActiveStep={setActiveStep} />}
-          {activeStep === 2 && <MatchingSection activeStep={activeStep} setActiveStep={setActiveStep} />}
-          {activeStep === 3 && <NetworkingSection activeStep={activeStep} setActiveStep={setActiveStep} />}
+          {activeStep === 0 && <ProfileSection />}
+          {activeStep === 1 && <InterestSection />}
+          {activeStep === 2 && <MatchingSection />}
+          {activeStep === 3 && <NetworkingSection />}
         </Box>
       </Container>
     </React.Fragment>

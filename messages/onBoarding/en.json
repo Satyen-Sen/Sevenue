@@ -36,7 +36,8 @@
       "age": "Select Age",
       "state": "Select State",
       "here-about-us": "How did you hear About us?",
-      "next": "Next"
+      "next": "Next",
+      "save": "Save"
     }
   },
   "social": {
@@ -65,7 +66,8 @@
     "sub-title-2": "Offering",
     "next": "Next",
     "previous": "Previous",
-    "skip": "Skip"
+    "skip": "Skip",
+    "save": "Save"
   },
   "interest": {
     "title": "Interests",
@@ -73,9 +75,9 @@
     "sub-title-1": "Fintech",
     "sub-title-2": "Solutions",
     "next": "Join Event",
-    "go-next": "Next",
     "previous": "Previous",
-    "skip": "Skip"
+    "skip": "Skip",
+    "save": "Save"
   },
   "networking": {
     "meeting": "Meeting Requests",

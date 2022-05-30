@@ -3,12 +3,16 @@ import Typography from '@mui/material/Typography';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
 import { useUserOnBoardingData } from '../../store/UserOnBaordingContext';
 import { useEffect } from 'react';
+import { useSnackbar } from 'notistack';
+import { useGlobalData } from '../../store/GlobalContext';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { UsersService } from '../../apis/rest.app';
 
-const MatchingSection = ({ activeStep, setActiveStep }) => {
+const MatchingSection = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const [user, setUser] = useGlobalData();
   const [userData, setUserData] = useUserOnBoardingData();
   const translations = useTranslations('matching');
   const [offeringData, setOfferingData] = React.useState([
@@ -28,7 +32,28 @@ const MatchingSection = ({ activeStep, setActiveStep }) => {
     { title: 'Other', isSelected: false },
   ]);
 
-  const handleNext = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [isAdded, setIsAdded] = React.useState(false);
+
+  const handleSave = () => {
+    setLoading(true);
+    UsersService.patch(user._id, {
+      matching: userData.matching,
+    })
+      .then((res) => {
+        setUser({
+          ...res,
+        });
+        setLoading(false);
+        enqueueSnackbar('Updated Successfully', { variant: 'success' });
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (!isAdded) return;
     let lookingFor = [];
     lookingForData.forEach((item) => {
       if (item.isSelected) {
@@ -48,14 +73,10 @@ const MatchingSection = ({ activeStep, setActiveStep }) => {
         offering,
       },
     });
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  }, [lookingForData, offeringData]);
 
   useEffect(() => {
+    if (isAdded) return;
     if (!userData) return;
     let _lookingForData = lookingForData;
     _lookingForData.forEach((data) => {
@@ -71,6 +92,7 @@ const MatchingSection = ({ activeStep, setActiveStep }) => {
       }
     });
     setOfferingData([..._offeringData]);
+    setIsAdded(true);
   }, [userData]);
 
   return (
@@ -140,26 +162,10 @@ const MatchingSection = ({ activeStep, setActiveStep }) => {
         ))}
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', py: 4 }}>
-        {activeStep !== 0 && (
-          <Button
-            color="inherit"
-            disabled={activeStep === 0}
-            fullWidth
-            onClick={handleBack}
-            sx={(theme) => ({
-              padding: theme.spacing(1, 4),
-              textTransform: 'none',
-              maxWidth: theme.spacing(16),
-              mr: 1,
-            })}
-            variant={'outlined'}
-          >
-            {translations('previous')}
-          </Button>
-        )}
-        <Button
+        <LoadingButton
           fullWidth
-          onClick={handleNext}
+          loading={loading}
+          onClick={handleSave}
           sx={(theme) => ({
             padding: theme.spacing(1, 4),
             maxWidth: theme.spacing(16),
@@ -167,17 +173,12 @@ const MatchingSection = ({ activeStep, setActiveStep }) => {
           })}
           variant={'contained'}
         >
-          {translations('next')}
-        </Button>
+          {translations('save')}
+        </LoadingButton>
         <Box sx={{ flex: '1 1 auto' }} />
       </Box>
     </React.Fragment>
   );
-};
-
-MatchingSection.propTypes = {
-  activeStep: PropTypes.number,
-  setActiveStep: PropTypes.func,
 };
 
 export default MatchingSection;

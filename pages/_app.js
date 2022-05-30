@@ -122,6 +122,7 @@ MyApp.getInitialProps = async (context) => {
   const event = await GetEventService.find({
     query: {
       slug: 'red-kite-conference-2022',
+      // slug: 'test-aws-1',
     },
   });
 
