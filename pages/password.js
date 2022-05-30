@@ -22,7 +22,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 const Password = () => {
   const translations = useTranslations();
-  const [, setUser] = useGlobalData();
+  const [, setUser, event] = useGlobalData();
   const Router = useRouter();
   const { email } = Router.query;
   const { enqueueSnackbar } = useSnackbar();
@@ -51,6 +51,7 @@ const Password = () => {
           strategy: 'local',
           email,
           password,
+          org: event?.org?._id,
         })
         .then((res) => {
           if (res) {
