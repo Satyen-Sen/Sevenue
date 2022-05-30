@@ -38,6 +38,9 @@ const Password = () => {
     setChecked(event.target.checked);
   };
   const handleLogin = () => {
+    if (!email || !event) {
+      Router.push('/login');
+    }
     if (password.trim() === '') {
       enqueueSnackbar('Password can not be empty', { variant: 'error' });
       return;
@@ -47,12 +50,18 @@ const Password = () => {
     } else {
       setLoading(true);
       restApp
-        .authenticate({
-          strategy: 'local',
-          email,
-          password,
-          org: event?.org?._id,
-        })
+        .authenticate(
+          {
+            strategy: 'local',
+            email,
+            password,
+          },
+          {
+            query: {
+              org: event?.org?._id,
+            },
+          },
+        )
         .then((res) => {
           if (res) {
             enqueueSnackbar('Login successfully', { variant: 'success' });
@@ -91,7 +100,10 @@ const Password = () => {
           })}
         >
           {translations('password.description', {
-            email: 'tes...@test.com',
+            email:
+              email && email.length
+                ? email.substring(0, 4) + '...' + email.substring(email.indexOf('@'), email.length)
+                : '---',
           })}
         </Typography>
         <TextField
