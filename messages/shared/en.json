@@ -37,5 +37,12 @@
 				"logout": "Logout"
 			}
 		}
+	},
+	"error": {
+		"event-not-found": {
+			"title": "Event not found",
+			"description": "Sorry the event your are looking for does not exist or is not live yet. You may have typed the address incorrectly or you may have used an outdated link. If you found a broken link from our site then reach out to us on {email}",
+			"return-to-home": "Return to Homepage"
+		}
 	}
 }

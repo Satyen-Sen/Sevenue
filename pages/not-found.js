@@ -2,21 +2,62 @@ import * as React from 'react';
 import getPageMessages from '../utils/getPageMessages';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import NotFound from '../src/assets/logo/not_found.svg';
+import { useTranslations } from 'next-intl';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 
 const Page404 = () => {
+  const translations = useTranslations('error.event-not-found');
   return (
-    <Box alignItems={'center'} display={'flex'} flexDirection={'column'} justifyContent={'center'} py={10}>
-      <Typography
-        sx={(theme) => ({
-          ...theme.typography.h1,
-          color: theme.palette.primary.main,
-          fontSize: theme.typography.fontSize * 15,
-        })}
-      >
-        404
-      </Typography>
-      <p>Page not found</p>
-    </Box>
+    <Container maxWidth={'xs'}>
+      <Box alignItems={'center'} display={'flex'} flexDirection={'column'} height={'80vh'} justifyContent={'center'}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img alt={'NotFound'} height={'240px'} src={NotFound} width={'344.88px'} />
+        <Typography
+          sx={(theme) => ({
+            ...theme.typography.h1,
+            fontSize: '1.7rem',
+            fontWeight: theme.typography.fontWeightMedium,
+            mt: 5,
+          })}
+        >
+          {translations('title')}
+        </Typography>
+        <Typography
+          align={'center'}
+          sx={(theme) => ({
+            ...theme.typography.h1,
+            fontSize: theme.typography.fontSize,
+            color: theme.palette.text.secondary,
+            mt: 1,
+          })}
+        >
+          {translations('description', {
+            email: 'support@gmail.com',
+          })}
+        </Typography>
+        <Button
+          color={'primary'}
+          component={Link}
+          disableElevation
+          href={'https://www.sevenue.com/'}
+          sx={(theme) => ({
+            mt: 5,
+            textTransform: 'none',
+            fontSize: '0.9rem',
+            fontWeight: theme.typography.fontWeightMedium,
+            padding: theme.spacing(1, 4),
+            borderRadius: 2,
+          })}
+          target={'_blank'}
+          variant={'contained'}
+        >
+          {translations('return-to-home')}
+        </Button>
+      </Box>
+    </Container>
   );
 };
 
