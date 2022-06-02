@@ -15,7 +15,10 @@ import restApp, {
   GetEventService,
 } from '../src/apis/rest.app';
 import 'cropperjs/dist/cropper.css';
-// import { useRouter } from 'next/router';
+import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import { useRouter } from 'next/router';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -24,8 +27,8 @@ const Noop = ({ children }) => children;
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps, globalProps } = props;
-  const { event } = globalProps;
-  // const Router = useRouter();
+  const { event, preview } = globalProps;
+  const Router = useRouter();
 
   let Layout = DefaultLayout;
 
@@ -42,23 +45,38 @@ export default function MyApp(props) {
 
   const [eventData, setEventData] = React.useState(null);
   const [user, setUser] = React.useState(null);
-  // const [loading, setLoading] = React.useState(true);
-  // const withOutLoginPages = ['/login', '/password'];
-  // const checkAccess = ({ role }) => {
-  //   if (role === 'host') {
-  //     return true;
-  //   }
-  //   return false;
-  // };
+  const [loading, setLoading] = React.useState(true);
+  const withOutLivePages = ['/login', '/password', '/not-found'];
+  const withOutLoginPages = ['/', '/onboarding', '/register', ...withOutLivePages];
 
-  useEffect(() => {
-    // setLoading(true);
+  const checkAccess = (user) => {
+    if (event.isLive) {
+      if (!user && !withOutLoginPages.includes(Router.pathname)) {
+        Router.push('/').then(() => {
+          setLoading(false);
+        });
+      } else {
+        setLoading(false);
+      }
+    } else if (withOutLivePages.includes(Router.pathname)) {
+      setLoading(false);
+    } else if (preview === 'true') {
+      setLoading(false);
+    } else if (user && user.role === 'host') {
+      setLoading(false);
+    } else {
+      Router.push('/not-found').then(() => {
+        setLoading(false);
+      });
+    }
+  };
 
+  useEffect(async () => {
+    setLoading(true);
     const token = cookieStorageGetItem(authCookieName);
     setEventData(event);
-    // if (event && !event.isLive) Router.push('/not-found');
     if (token) {
-      restApp
+      await restApp
         .authenticate({
           strategy: 'jwt',
           accessToken: token,
@@ -66,13 +84,22 @@ export default function MyApp(props) {
         .then((res) => {
           if (res) {
             setUser(res?.eventUsers);
+            checkAccess(res?.eventUsers);
           }
         })
         .catch(() => {
           cookieStorageRemoveItem(authCookieName);
         });
+    } else {
+      checkAccess();
     }
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    setLoading(true);
+    checkAccess(user);
+  }, [Router.pathname]);
 
   return (
     <CacheProvider value={emotionCache}>
@@ -106,7 +133,19 @@ export default function MyApp(props) {
               // loadDefaults={typeof Component.loadDefaults === 'undefined' ? true : Component.loadDefaults}
               meta={meta}
             >
-              <Component {...pageProps} />
+              <React.Fragment>
+                {loading ? (
+                  <Backdrop
+                    component={Box}
+                    open={loading}
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                  >
+                    <CircularProgress color="inherit" />
+                  </Backdrop>
+                ) : (
+                  <Component {...pageProps} />
+                )}
+              </React.Fragment>
             </Layout>
           </GlobalProvider>
         </SnackbarProvider>
@@ -117,11 +156,13 @@ export default function MyApp(props) {
 
 MyApp.getInitialProps = async (context) => {
   const { ctx } = context;
-  const { req } = ctx;
+  const { req, query } = ctx;
+  const { preview } = query;
   const { host: hostname } = req.headers;
   const event = await GetEventService.find({
     query: {
       slug: 'red-kite-conference-2022',
+      // slug: 'test-aws-1',
     },
   });
 
@@ -129,6 +170,7 @@ MyApp.getInitialProps = async (context) => {
     globalProps: {
       hostname,
       event,
+      preview,
     },
   };
 };

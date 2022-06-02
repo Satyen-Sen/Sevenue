@@ -56,13 +56,13 @@ restApp.configure(
 
 export default restApp;
 
-// export const uploadService = restApp.service(services.upload);
-//
-// export const uploadFile = (file) => {
-//     const formData = new FormData();
-//     formData.append('uri[]', file);
-//     return uploadService.create(formData);
-// };
+export const uploadService = restApp.service(services.upload);
+
+export const uploadFile = (file) => {
+  const formData = new FormData();
+  formData.append('uri[]', file);
+  return uploadService.create(formData);
+};
 
 export const UsersService = restApp.service(services['users']);
 export const GetEventService = restApp.service(services['get-event']);

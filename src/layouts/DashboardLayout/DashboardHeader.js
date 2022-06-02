@@ -113,10 +113,11 @@ const DashboardHeader = () => {
                 sx={{
                   paddingTop: 2,
                   backgroundColor: '#f8e9ee',
+                  maxWidth: '220px',
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img alt="logo" height={'100%'} src={Logo} />
+                <img alt="logo" height={'100%'} src={Logo} width={'100%'} />
               </Box>
               <Box
                 display={'flex'}

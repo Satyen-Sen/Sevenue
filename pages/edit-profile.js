@@ -90,10 +90,10 @@ const EditProfile = () => {
           </Box>
         </Box>
         <Box mb={6}>
-          {activeStep === 0 && <ProfileSection setActiveStep={setActiveStep} />}
-          {activeStep === 1 && <InterestSection activeStep={activeStep} setActiveStep={setActiveStep} />}
-          {activeStep === 2 && <MatchingSection activeStep={activeStep} setActiveStep={setActiveStep} />}
-          {activeStep === 3 && <NetworkingSection activeStep={activeStep} setActiveStep={setActiveStep} />}
+          {activeStep === 0 && <ProfileSection />}
+          {activeStep === 1 && <InterestSection />}
+          {activeStep === 2 && <MatchingSection />}
+          {activeStep === 3 && <NetworkingSection />}
         </Box>
       </Container>
     </React.Fragment>

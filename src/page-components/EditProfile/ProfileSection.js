@@ -8,13 +8,14 @@ import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import CustomTextField from '../../components/CustomTextField';
 import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import PropTypes from 'prop-types';
 import { useGlobalData } from '../../store/GlobalContext';
 import { useEffect } from 'react';
 import { useUserOnBoardingData } from '../../store/UserOnBaordingContext';
 import { useSnackbar } from 'notistack';
 import CropperDialog from '../../components/Crop/CropperDialog';
+import InputAdornment from '@mui/material/InputAdornment';
+import { uploadFile, UsersService } from '../../apis/rest.app';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const gender = [
   {
@@ -30,10 +31,60 @@ const gender = [
     label: 'Others',
   },
 ];
+const age = [
+  {
+    value: '18 and Below',
+    label: '18 and Below',
+  },
+  {
+    value: 'Above 18 and Below 25',
+    label: 'Above 18 and Below 25',
+  },
+  {
+    value: '25 or Above',
+    label: '25 or Above',
+  },
+];
 
-const ProfileSection = ({ setActiveStep }) => {
+const state = [
+  { value: 'Arunachal Pradesh', label: 'Arunachal Pradesh' },
+  { value: 'Assam', label: 'Assam' },
+  { value: 'Bihar', label: 'Bihar' },
+  { value: 'Chhattisgarh', label: 'Chhattisgarh' },
+  { value: 'Goa', label: 'Goa' },
+  { value: 'Gujarat', label: 'Gujarat' },
+  { value: 'Haryana', label: 'Haryana' },
+  { value: 'Himachal Pradesh', label: 'Himachal Pradesh' },
+  { value: 'Jammu and Kashmir', label: 'Jammu and Kashmir' },
+  { value: 'Jharkhand', label: 'Jharkhand' },
+  { value: 'Karnataka', label: 'Karnataka' },
+  { value: 'Kerala', label: 'Kerala' },
+  { value: 'Madhya Pradesh', label: 'Madhya Pradesh' },
+  { value: 'Maharashtra', label: 'Maharashtra' },
+  { value: 'Manipur', label: 'Manipur' },
+  { value: 'Meghalaya', label: 'Meghalaya' },
+  { value: 'Mizoram', label: 'Mizoram' },
+  { value: 'Nagaland', label: 'Nagaland' },
+  { value: 'Odisha', label: 'Odisha' },
+  { value: 'Punjab', label: 'Punjab' },
+  { value: 'Rajasthan', label: 'Rajasthan' },
+  { value: 'Sikkim', label: 'Sikkim' },
+  { value: 'Tamil Nadu', label: 'Tamil Nadu' },
+  { value: 'Telangana', label: 'Telangana' },
+  { value: 'Tripura', label: 'Tripura' },
+  { value: 'Uttar Pradesh', label: 'Uttar Pradesh' },
+  { value: 'Uttarakhand', label: 'Uttarakhand' },
+  { value: 'West Bengal', label: 'West Bengal' },
+];
+const hereAboutUs = [
+  { value: 'Here from social media', label: 'Here from social media' },
+  { value: 'Online Community', label: 'Online Community' },
+  { value: 'Online news outlets', label: 'Online news outlets' },
+];
+
+const ProfileSection = () => {
   const { enqueueSnackbar } = useSnackbar();
-  const [user] = useGlobalData();
+  const [user, setUser] = useGlobalData();
   const [userData, setUserData] = useUserOnBoardingData();
   const translations = useTranslations('profile');
   const [data, setData] = React.useState({
@@ -45,27 +96,17 @@ const ProfileSection = ({ setActiveStep }) => {
     companyName: '',
     about: '',
     phone: '',
-    age: '18 and Below',
-    state: 'Odisha',
-    hereAboutUs: 'Online news outlets',
+    age: '',
+    state: '',
+    hereAboutUs: '',
   });
 
-  const [image, setImage] = React.useState(user ? user.avatar : null);
-  const [src, setSrc] = React.useState(null);
-  const [show, setShow] = React.useState(false);
-  console.log('img-->', image);
+  const [loading, setLoading] = React.useState(false);
+  const [isAdded, setIsAdded] = React.useState(false);
 
-  const dataURLtoFile = (dataurl, filename) => {
-    var arr = dataurl.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
-  };
+  const [image, setImage] = React.useState(user ? user.avatar : null);
+  const [src, setSrc] = React.useState(user ? user.avatar : null);
+  const [show, setShow] = React.useState(false);
 
   const handleChange = (e) => {
     setData((prevState) => ({
@@ -82,7 +123,10 @@ const ProfileSection = ({ setActiveStep }) => {
   };
 
   const validate = () => {
-    if (data.firstName === '') {
+    if (!image) {
+      enqueueSnackbar('Please upload your profile picture', { variant: 'error' });
+      return false;
+    } else if (data.firstName === '') {
       enqueueSnackbar('First Name is required', { variant: 'error' });
       return false;
     } else if (data.lastName.trim() === '') {
@@ -91,20 +135,90 @@ const ProfileSection = ({ setActiveStep }) => {
     } else if (data.email.trim() === '') {
       enqueueSnackbar('Email is required', { variant: 'error' });
       return false;
+    } else if (data.phone.trim() === '') {
+      enqueueSnackbar('Phone is required', { variant: 'error' });
+      return false;
+    } else if (data.phone.length !== 10) {
+      enqueueSnackbar('Phone number must be of 10 digits', { variant: 'error' });
+      return false;
     } else {
       return true;
     }
   };
 
-  const handleNext = () => {
+  const dataURLtoFile = (dataurl, filename) => {
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  };
+
+  const handleSave = async () => {
     if (validate()) {
-      setUserData({
-        ...userData,
-        ...data,
-      });
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setLoading(true);
+      let _image = userData.image;
+      if (userData.avatar !== userData.image) {
+        await uploadFile(dataURLtoFile(_image, `upload-${new Date().getTime()}.png`))
+          .then((response) => {
+            if (response) {
+              _image = response.link;
+            } else {
+              _image = null;
+            }
+          })
+          .catch((err) => {
+            enqueueSnackbar(err.message, {
+              variant: 'error',
+            });
+          });
+      }
+      if (!_image) {
+        enqueueSnackbar('Image upload failed', { variant: 'error' });
+        setLoading(false);
+        return;
+      }
+      await UsersService.patch(user._id, {
+        avatar: _image,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        email: userData.email,
+        userInfo: {
+          gender: userData.gender,
+          jobTitle: userData.jobTitle,
+          company: userData.companyName,
+          about: userData.about,
+          phoneNumber: userData.phone,
+          age: userData.age,
+          state: userData.state,
+          howDidYouHearAboutUs: userData.hereAboutUs,
+        },
+      })
+        .then((res) => {
+          setUser({
+            ...res,
+          });
+          setLoading(false);
+          enqueueSnackbar('Updated Successfully', { variant: 'success' });
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     }
   };
+
+  useEffect(() => {
+    if (!isAdded) return;
+    setUserData((prevState) => ({
+      ...prevState,
+      ...data,
+      image: image,
+    }));
+  }, [data, image]);
 
   useEffect(() => {
     if (!user) return;
@@ -121,6 +235,8 @@ const ProfileSection = ({ setActiveStep }) => {
       age: user.userInfo.age,
       state: user.userInfo.state,
       hereAboutUs: user.userInfo.howDidYouHearAboutUs,
+      avatar: user.avatar || '',
+      image: user.avatar || '',
       ...userData,
     };
     setData((prevState) => ({
@@ -128,6 +244,9 @@ const ProfileSection = ({ setActiveStep }) => {
       ...val,
     }));
     setUserData({ ...val });
+    setImage(userData?.image ? userData?.image : user.avatar);
+    setSrc(userData?.image ? userData?.image : user.avatar);
+    setIsAdded(true);
   }, [user]);
 
   return (
@@ -256,81 +375,82 @@ const ProfileSection = ({ setActiveStep }) => {
             variant="filled"
           />
         </Grid>
-        {/*<Grid item md={6} sm={6} xs={12}>*/}
-        {/*  <CustomTextField*/}
-        {/*    InputProps={{*/}
-        {/*      startAdornment: <InputAdornment position="start">+91</InputAdornment>,*/}
-        {/*    }}*/}
-        {/*    fullWidth*/}
-        {/*    id="phone"*/}
-        {/*    label={translations('form.phone')}*/}
-        {/*    onChange={(e) => {*/}
-        {/*      if (e.target.value.split('').length <= 10) {*/}
-        {/*        handleChange(e);*/}
-        {/*      }*/}
-        {/*    }}*/}
-        {/*    placeholder={translations('form.enter-phone')}*/}
-        {/*    type="number"*/}
-        {/*    value={data.phone}*/}
-        {/*    variant="filled"*/}
-        {/*  />*/}
-        {/*</Grid>*/}
-        {/*<Grid item md={6} sm={6} xs={12}>*/}
-        {/*  <CustomTextField*/}
-        {/*    fullWidth*/}
-        {/*    id="age"*/}
-        {/*    label={translations('form.age')}*/}
-        {/*    onChange={(e) => handleSelectChange(e, 'age')}*/}
-        {/*    select*/}
-        {/*    value={data.age}*/}
-        {/*    variant="filled"*/}
-        {/*  >*/}
-        {/*    {age.map((option) => (*/}
-        {/*      <MenuItem key={option.value} value={option.value}>*/}
-        {/*        {option.label}*/}
-        {/*      </MenuItem>*/}
-        {/*    ))}*/}
-        {/*  </CustomTextField>*/}
-        {/*</Grid>*/}
-        {/*<Grid item md={6} sm={6} xs={12}>*/}
-        {/*  <CustomTextField*/}
-        {/*    fullWidth*/}
-        {/*    id="state"*/}
-        {/*    label={translations('form.state')}*/}
-        {/*    onChange={(e) => handleSelectChange(e, 'state')}*/}
-        {/*    select*/}
-        {/*    value={data.state}*/}
-        {/*    variant="filled"*/}
-        {/*  >*/}
-        {/*    {state.map((option) => (*/}
-        {/*      <MenuItem key={option.value} value={option.value}>*/}
-        {/*        {option.label}*/}
-        {/*      </MenuItem>*/}
-        {/*    ))}*/}
-        {/*  </CustomTextField>*/}
-        {/*</Grid>*/}
-        {/*<Grid item md={6} sm={6} xs={12}>*/}
-        {/*  <CustomTextField*/}
-        {/*    fullWidth*/}
-        {/*    id="hereAboutUs"*/}
-        {/*    label={translations('form.here-about-us')}*/}
-        {/*    onChange={(e) => handleSelectChange(e, 'hereAboutUs')}*/}
-        {/*    select*/}
-        {/*    value={data.hereAboutUs}*/}
-        {/*    variant="filled"*/}
-        {/*  >*/}
-        {/*    {hereAboutUs.map((option) => (*/}
-        {/*      <MenuItem key={option.value} value={option.value}>*/}
-        {/*        {option.label}*/}
-        {/*      </MenuItem>*/}
-        {/*    ))}*/}
-        {/*  </CustomTextField>*/}
-        {/*</Grid>*/}
+        <Grid item md={6} sm={6} xs={12}>
+          <CustomTextField
+            InputProps={{
+              startAdornment: <InputAdornment position="start">+91</InputAdornment>,
+            }}
+            fullWidth
+            id="phone"
+            label={translations('form.phone')}
+            onChange={(e) => {
+              if (e.target.value.split('').length <= 10) {
+                handleChange(e);
+              }
+            }}
+            placeholder={translations('form.enter-phone')}
+            type="number"
+            value={data.phone}
+            variant="filled"
+          />
+        </Grid>
+        <Grid item md={6} sm={6} xs={12}>
+          <CustomTextField
+            fullWidth
+            id="age"
+            label={translations('form.age')}
+            onChange={(e) => handleSelectChange(e, 'age')}
+            select
+            value={data.age}
+            variant="filled"
+          >
+            {age.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </CustomTextField>
+        </Grid>
+        <Grid item md={6} sm={6} xs={12}>
+          <CustomTextField
+            fullWidth
+            id="state"
+            label={translations('form.state')}
+            onChange={(e) => handleSelectChange(e, 'state')}
+            select
+            value={data.state}
+            variant="filled"
+          >
+            {state.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </CustomTextField>
+        </Grid>
+        <Grid item md={6} sm={6} xs={12}>
+          <CustomTextField
+            fullWidth
+            id="hereAboutUs"
+            label={translations('form.here-about-us')}
+            onChange={(e) => handleSelectChange(e, 'hereAboutUs')}
+            select
+            value={data.hereAboutUs}
+            variant="filled"
+          >
+            {hereAboutUs.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </CustomTextField>
+        </Grid>
       </Grid>
       <Box sx={{ py: 4 }}>
-        <Button
+        <LoadingButton
           fullWidth
-          onClick={handleNext}
+          loading={loading}
+          onClick={handleSave}
           sx={(theme) => ({
             padding: theme.spacing(1, 4),
             maxWidth: theme.spacing(16),
@@ -338,8 +458,8 @@ const ProfileSection = ({ setActiveStep }) => {
           })}
           variant={'contained'}
         >
-          {translations('form.next')}
-        </Button>
+          {translations('form.save')}
+        </LoadingButton>
       </Box>
       <CropperDialog
         aspectRatio={1}
@@ -367,7 +487,4 @@ const ProfileSection = ({ setActiveStep }) => {
   );
 };
 
-ProfileSection.propTypes = {
-  setActiveStep: PropTypes.func,
-};
 export default ProfileSection;

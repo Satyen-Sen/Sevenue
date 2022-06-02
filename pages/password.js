@@ -64,11 +64,17 @@ const Password = () => {
         )
         .then((res) => {
           if (res) {
-            enqueueSnackbar('Login successfully', { variant: 'success' });
             setUser(res?.eventUsers);
-            Router.push('/dashboard').then(() => {
-              setLoading(false);
-            });
+            if (event.isLive || res.role === 'host') {
+              enqueueSnackbar('Login successfully', { variant: 'success' });
+              Router.push('/dashboard').then(() => {
+                setLoading(false);
+              });
+            } else {
+              Router.push('/not-found').then(() => {
+                setLoading(false);
+              });
+            }
           }
         })
         .catch((err) => {

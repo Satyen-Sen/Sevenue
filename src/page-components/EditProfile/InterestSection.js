@@ -3,12 +3,16 @@ import Typography from '@mui/material/Typography';
 import { useTranslations } from 'next-intl';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
 import { useUserOnBoardingData } from '../../store/UserOnBaordingContext';
 import { useEffect } from 'react';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { UsersService } from '../../apis/rest.app';
+import { useSnackbar } from 'notistack';
+import { useGlobalData } from '../../store/GlobalContext';
 
-const InterestSection = ({ activeStep, setActiveStep }) => {
+const InterestSection = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const [user, setUser] = useGlobalData();
   const [userData, setUserData] = useUserOnBoardingData();
   const translations = useTranslations('interest');
   const [fintechData, setFintechData] = React.useState([
@@ -29,7 +33,28 @@ const InterestSection = ({ activeStep, setActiveStep }) => {
     { title: 'Other', isSelected: false },
   ]);
 
-  const handleNext = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [isAdded, setIsAdded] = React.useState(false);
+
+  const handleSave = () => {
+    setLoading(true);
+    UsersService.patch(user._id, {
+      interests: userData.interests,
+    })
+      .then((res) => {
+        setUser({
+          ...res,
+        });
+        setLoading(false);
+        enqueueSnackbar('Updated Successfully', { variant: 'success' });
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (!isAdded) return;
     let fintech = [];
     fintechData.forEach((item) => {
       if (item.isSelected) {
@@ -55,14 +80,10 @@ const InterestSection = ({ activeStep, setActiveStep }) => {
         },
       ],
     });
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  }, [solutionsData, fintechData]);
 
   useEffect(() => {
+    if (isAdded) return;
     if (userData) {
       let _fintechData = fintechData;
       _fintechData.forEach((data) => {
@@ -83,6 +104,7 @@ const InterestSection = ({ activeStep, setActiveStep }) => {
       });
       setSolutionsData([..._solutionsData]);
     }
+    setIsAdded(true);
   }, [userData]);
 
   return (
@@ -152,26 +174,10 @@ const InterestSection = ({ activeStep, setActiveStep }) => {
         ))}
       </Box>
       <Box sx={{ py: 4 }}>
-        {activeStep !== 0 && (
-          <Button
-            color="inherit"
-            disabled={activeStep === 0}
-            fullWidth
-            onClick={handleBack}
-            sx={(theme) => ({
-              padding: theme.spacing(1, 4),
-              textTransform: 'none',
-              maxWidth: theme.spacing(16),
-              mr: 1,
-            })}
-            variant={'outlined'}
-          >
-            {translations('previous')}
-          </Button>
-        )}
-        <Button
+        <LoadingButton
           fullWidth
-          onClick={handleNext}
+          loading={loading}
+          onClick={handleSave}
           sx={(theme) => ({
             padding: theme.spacing(1, 1),
             maxWidth: theme.spacing(16),
@@ -179,16 +185,11 @@ const InterestSection = ({ activeStep, setActiveStep }) => {
           })}
           variant={'contained'}
         >
-          {translations('go-next')}
-        </Button>
+          {translations('save')}
+        </LoadingButton>
       </Box>
     </React.Fragment>
   );
-};
-
-InterestSection.propTypes = {
-  activeStep: PropTypes.number,
-  setActiveStep: PropTypes.func,
 };
 
 export default InterestSection;
