@@ -8,11 +8,11 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 
-const Page404 = () => {
+const PageNotFound = () => {
   const translations = useTranslations('error.event-not-found');
   return (
     <Container maxWidth={'xs'}>
-      <Box alignItems={'center'} display={'flex'} flexDirection={'column'} height={'80vh'} justifyContent={'center'}>
+      <Box alignItems={'center'} display={'flex'} flexDirection={'column'} height={'95vh'} justifyContent={'center'}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt={'NotFound'} height={'240px'} src={NotFound} width={'344.88px'} />
         <Typography
@@ -39,17 +39,21 @@ const Page404 = () => {
           })}
         </Typography>
         <Button
-          color={'primary'}
           component={Link}
           disableElevation
           href={'https://www.sevenue.com/'}
           sx={(theme) => ({
             mt: 5,
+            mb: 5,
+            background: '#b8244f',
             textTransform: 'none',
             fontSize: '0.9rem',
             fontWeight: theme.typography.fontWeightMedium,
             padding: theme.spacing(1, 4),
             borderRadius: 2,
+            '&:hover': {
+              background: '#b8244f',
+            },
           })}
           target={'_blank'}
           variant={'contained'}
@@ -71,4 +75,6 @@ export const getServerSideProps = async (context) => {
   };
 };
 
-export default Page404;
+PageNotFound.Layout = null;
+
+export default PageNotFound;
