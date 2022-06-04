@@ -65,7 +65,7 @@ const Password = () => {
         .then((res) => {
           if (res) {
             setUser(res?.eventUsers);
-            if (event.isLive || res.role === 'host') {
+            if (event.isLive || res.role === 'user') {
               enqueueSnackbar('Login successfully', { variant: 'success' });
               Router.push('/dashboard').then(() => {
                 setLoading(false);

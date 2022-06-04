@@ -62,7 +62,7 @@ export default function MyApp(props) {
       setLoading(false);
     } else if (preview === 'true') {
       setLoading(false);
-    } else if (user && user.role === 'host') {
+    } else if (user && user.role === 'user') {
       setLoading(false);
     } else {
       Router.push('/not-found').then(() => {
