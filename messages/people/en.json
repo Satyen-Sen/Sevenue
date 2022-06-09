@@ -9,5 +9,7 @@
   "looking-for": "Looking for",
   "offering": "Offering",
   "data-not-provided": "Data not provided",
-  "description-not-provided": "Description not provided"
+  "description-not-provided": "Description not provided",
+  "search-by-name-company": "Search by name, title, company...",
+  "sort": "Sort"
 }

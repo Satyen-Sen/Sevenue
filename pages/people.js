@@ -12,9 +12,15 @@ import Skeleton from '@mui/material/Skeleton';
 import { useGlobalData } from '../src/store/GlobalContext';
 import { Button, ListItemIcon, ListItemText, Menu, MenuItem, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Check, Search, SortByAlpha } from '@mui/icons-material';
+import Search from '@mui/icons-material/Search';
+import Check from '@mui/icons-material/Check';
+import SortByAlpha from '@mui/icons-material/SortByAlpha';
 import PeopleAnimationCard from '../src/page-components/People/PeopleAnimationCard';
 import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import CloseIcon from '@mui/icons-material/Close';
+import useDebounce from '../src/hooks/useDebounce';
 
 const People = () => {
   const translations = useTranslations();
@@ -58,40 +64,44 @@ const People = () => {
     setAnchorElSort(null);
   };
 
-  useEffect(() => {
-    setPeople([]);
-    setHasMore(true);
-  }, [selectedInterest, sortType]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+
+  const debounceSearchValue = useDebounce(searchValue, 500);
 
   const loadPeople = () => {
-    // let extraQuery = {};
-    // if (searchValue.trim() !== '') {
-    //   extraQuery = {
-    //     name: {
-    //       $regex: `.*${searchValue}.*`,
-    //       $options: 'i',
-    //     },
-    //   };
-    // }
-    const serchText = 'Akash';
     const $or = [];
+    if (searchValue.trim() !== '') {
+      searchValue.split(' ').map((word) =>
+        $or.push(
+          {
+            firstName: {
+              $regex: `.*${word}*.`,
+              $options: 'i',
+            },
+          },
+          {
+            lastName: {
+              $regex: `.*${word}*.`,
+              $options: 'i',
+            },
+          },
+          {
+            'userInfo.company': {
+              $regex: `.*${word}*.`,
+              $options: 'i',
+            },
+          },
+          {
+            'userInfo.jobTitle': {
+              $regex: `.*${word}*.`,
+              $options: 'i',
+            },
+          },
+        ),
+      );
+    }
 
-    serchText.split(' ').map((word) =>
-      $or.push(
-        {
-          firstName: {
-            $regex: `.*${word}*.`,
-            $options: 'i',
-          },
-        },
-        {
-          lastName: {
-            $regex: `.*${word}*.`,
-            $options: 'i',
-          },
-        },
-      ),
-    );
     UsersService.find({
       query: {
         $skip: people.length,
@@ -151,27 +161,74 @@ const People = () => {
         setHasMore(false);
       });
   };
+
+  useEffect(() => {
+    setPeople([]);
+    setHasMore(true);
+  }, [selectedInterest, sortType, debounceSearchValue]);
+
   return (
     <React.Fragment>
-      <Box alignItems={'center'} display={'flex'} justifyContent={'space-between'} mb={2}>
-        <Typography
-          sx={(theme) => ({
-            ...theme.typography.h6,
-            fontWeight: theme.typography.fontWeightBold,
-            fontSize: '1.2rem',
-          })}
-        >
-          {translations('title')}
-        </Typography>
-        <IconButton
-          color={'primary'}
-          sx={(theme) => ({
-            border: '1px solid',
-            borderColor: theme.palette.primary.main,
-          })}
-        >
-          <Search />
-        </IconButton>
+      <Box alignItems={'center'} display={'flex'} height={'40px'} justifyContent={'space-between'} mb={1}>
+        {!isSearching && (
+          <Typography
+            sx={(theme) => ({
+              ...theme.typography.h6,
+              fontWeight: theme.typography.fontWeightBold,
+              fontSize: '1.5rem',
+            })}
+          >
+            {translations('title')}
+          </Typography>
+        )}
+
+        {isSearching && (
+          <TextField
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search color={'primary'} />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      setIsSearching(false);
+                      setSearchValue('');
+                    }}
+                    size={'small'}
+                    sx={(theme) => ({
+                      border: '1px solid',
+                      borderColor: theme.palette.divider,
+                    })}
+                  >
+                    <CloseIcon fontSize={'small'} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            fullWidth
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder={translations('search-by-name-company')}
+            size={'small'}
+            value={searchValue}
+          />
+        )}
+
+        {!isSearching && (
+          <IconButton
+            color={'primary'}
+            onClick={() => setIsSearching(true)}
+            size={'small'}
+            sx={(theme) => ({
+              border: '1px solid',
+              borderColor: theme.palette.primary.main,
+            })}
+          >
+            <Search />
+          </IconButton>
+        )}
       </Box>
 
       <Divider />
@@ -286,7 +343,7 @@ const People = () => {
             sx={{ textTransform: 'capitalize', ml: 1 }}
             variant={'outlined'}
           >
-            Sort
+            {translations('sort')}
           </Button>
           <Menu
             MenuListProps={{
