@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
-import IMG from '../../assets/landing/temp_profile_image.png';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useTranslations } from 'next-intl';
@@ -24,10 +23,10 @@ const PeopleAnimationCard = ({ person }) => {
         onMouseLeave={() => setHover(false)}
         sx={(theme) => ({
           backgroundColor: theme.palette.common.white,
-          border: '1px solid #f5f5f5',
+          border: '1px solid #e6e6e6',
         })}
       >
-        <Box display={'flex'}>
+        <Box display={'flex'} width={'100%'}>
           <Box
             onClick={() => setOpenProfile(true)}
             sx={(theme) => ({
@@ -41,7 +40,7 @@ const PeopleAnimationCard = ({ person }) => {
             })}
           >
             <Avatar
-              src={IMG}
+              src={person.avatar || null}
               sx={(theme) => ({
                 height: theme.spacing(hover ? 6 : 8),
                 width: theme.spacing(hover ? 6 : 8),
@@ -54,8 +53,8 @@ const PeopleAnimationCard = ({ person }) => {
               })}
             />
           </Box>
-          <Box alignItems={'start'} display={'flex'} height={'100%'} justifyContent={'center'}>
-            <Box height={'100%'}>
+          <Box alignItems={'start'} display={'flex'} height={'100%'} justifyContent={'center'} width={'100%'}>
+            <Box height={'100%'} width={'100%'}>
               <Typography
                 onClick={() => setOpenProfile(true)}
                 sx={(theme) => ({
@@ -148,7 +147,7 @@ const PeopleAnimationCard = ({ person }) => {
           </Box>
         </Box>
       </Paper>
-      <PeopleProfileDialog openProfile={openProfile} person={person} setOpenProfile={setOpenProfile} />
+      {openProfile && <PeopleProfileDialog openProfile={openProfile} person={person} setOpenProfile={setOpenProfile} />}
     </React.Fragment>
   );
 };

@@ -4,5 +4,10 @@
   "all-attendees": "All attendees ({count})",
   "send-message": "Send message",
   "schedule-meeting": "Schedule Meeting",
-  "message": "Message"
+  "message": "Message",
+  "video-call": "Video Call",
+  "looking-for": "Looking for",
+  "offering": "Offering",
+  "data-not-provided": "Data not provided",
+  "description-not-provided": "Description not provided"
 }

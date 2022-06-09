@@ -12,8 +12,9 @@ import Skeleton from '@mui/material/Skeleton';
 import { useGlobalData } from '../src/store/GlobalContext';
 import { Button, ListItemIcon, ListItemText, Menu, MenuItem, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Check, SortByAlpha } from '@mui/icons-material';
+import { Check, Search, SortByAlpha } from '@mui/icons-material';
 import PeopleAnimationCard from '../src/page-components/People/PeopleAnimationCard';
+import IconButton from '@mui/material/IconButton';
 
 const People = () => {
   const translations = useTranslations();
@@ -63,10 +64,39 @@ const People = () => {
   }, [selectedInterest, sortType]);
 
   const loadPeople = () => {
+    // let extraQuery = {};
+    // if (searchValue.trim() !== '') {
+    //   extraQuery = {
+    //     name: {
+    //       $regex: `.*${searchValue}.*`,
+    //       $options: 'i',
+    //     },
+    //   };
+    // }
+    const serchText = 'Akash';
+    const $or = [];
+
+    serchText.split(' ').map((word) =>
+      $or.push(
+        {
+          firstName: {
+            $regex: `.*${word}*.`,
+            $options: 'i',
+          },
+        },
+        {
+          lastName: {
+            $regex: `.*${word}*.`,
+            $options: 'i',
+          },
+        },
+      ),
+    );
     UsersService.find({
       query: {
         $skip: people.length,
-        $limit: 9,
+        $limit: 45,
+        $or,
         $sort: {
           ...(sortType === 0 ? { createdAt: -1 } : sortType === 1 ? { firstName: 1 } : { firstName: -1 }),
         },
@@ -102,9 +132,9 @@ const People = () => {
         'matching.offering': {
           $in: user?.matching?.offering ? user?.matching?.offering : [],
         },
-        interests: {
-          $in: user?.interests ? user?.interests : [],
-        },
+        // interests: {
+        //   $in: user?.interests ? user?.interests : [],
+        // },
         $sort: {
           createdAt: -1,
         },
@@ -123,16 +153,27 @@ const People = () => {
   };
   return (
     <React.Fragment>
-      <Typography
-        sx={(theme) => ({
-          ...theme.typography.h6,
-          fontWeight: theme.typography.fontWeightBold,
-          fontSize: '1.2rem',
-          marginBottom: theme.spacing(2),
-        })}
-      >
-        {translations('title')}
-      </Typography>
+      <Box alignItems={'center'} display={'flex'} justifyContent={'space-between'} mb={2}>
+        <Typography
+          sx={(theme) => ({
+            ...theme.typography.h6,
+            fontWeight: theme.typography.fontWeightBold,
+            fontSize: '1.2rem',
+          })}
+        >
+          {translations('title')}
+        </Typography>
+        <IconButton
+          color={'primary'}
+          sx={(theme) => ({
+            border: '1px solid',
+            borderColor: theme.palette.primary.main,
+          })}
+        >
+          <Search />
+        </IconButton>
+      </Box>
+
       <Divider />
       <Typography
         sx={(theme) => ({
