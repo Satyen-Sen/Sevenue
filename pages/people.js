@@ -20,6 +20,8 @@ import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import CloseIcon from '@mui/icons-material/Close';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useDebounce from '../src/hooks/useDebounce';
 
 const People = () => {
@@ -29,9 +31,12 @@ const People = () => {
   const [total, setTotal] = useState(0);
   const [people, setPeople] = useState([]);
 
-  const [hasMoreMatch, setHasMoreMatch] = useState(true);
+  const [matchingLoading, setMatchingLoading] = useState(true);
   const [totalMatching, setTotalMatching] = useState(0);
+  const [matchingPage, setMatchingPage] = useState(1);
+  const [matchingPerPage] = useState(6);
   const [matching, setMatching] = useState([]);
+
   const [selectedInterest] = useState([]);
 
   // const [staticData, setStaticData] = React.useState([
@@ -134,8 +139,8 @@ const People = () => {
   const loadMatching = () => {
     UsersService.find({
       query: {
-        $skip: people.length,
-        $limit: 9,
+        $skip: matchingPerPage * (matchingPage - 1),
+        $limit: matchingPerPage,
         'matching.lookingFor': {
           $in: user?.matching?.lookingFor ? user?.matching?.lookingFor : [],
         },
@@ -153,12 +158,11 @@ const People = () => {
       .then((response) => {
         const { data, total } = response;
         setTotalMatching(total);
-        const result = [...people, ...data];
-        setHasMoreMatch(result.length < total);
-        setMatching([...result]);
+        setMatching([...data]);
+        setMatchingLoading(false);
       })
       .catch(() => {
-        setHasMore(false);
+        setMatchingLoading(false);
       });
   };
 
@@ -166,6 +170,11 @@ const People = () => {
     setPeople([]);
     setHasMore(true);
   }, [selectedInterest, sortType, debounceSearchValue]);
+
+  useEffect(() => {
+    setMatchingLoading(true);
+    loadMatching();
+  }, [matchingPage]);
 
   return (
     <React.Fragment>
@@ -230,42 +239,68 @@ const People = () => {
           </IconButton>
         )}
       </Box>
-
       <Divider />
-      <Typography
-        sx={(theme) => ({
-          ...theme.typography.h6,
-          fontWeight: theme.typography.fontWeightBold,
-          fontSize: '1.2rem',
-          my: theme.spacing(2),
-        })}
+      <Box
+        alignItems={'center'}
+        display={matching.length === 0 && matchingLoading === false ? 'none' : 'flex'}
+        justifyContent={'space-between'}
+        my={2}
       >
-        {translations('your-match', { count: totalMatching })}
-      </Typography>
-      <InfiniteScroll
-        hasMore={hasMoreMatch}
-        loadMore={loadMatching}
-        loader={
-          <Grid container key={'all-teacher'} spacing={2} sx={{ mt: 2 }}>
-            {[...Array(9)].map((_, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Grid item key={index} md={4} sm={6} xs={12}>
-                <Skeleton animation={'wave'} height={110} sx={{ borderRadius: 1 }} variant={'rectangular'} />
-              </Grid>
-            ))}
-          </Grid>
-        }
-        pageStart={0}
-      >
+        <Typography
+          sx={(theme) => ({
+            ...theme.typography.h6,
+            fontWeight: theme.typography.fontWeightBold,
+            fontSize: '1.2rem',
+          })}
+        >
+          {translations('your-match')}
+        </Typography>
+        <Box>
+          <IconButton
+            disabled={matchingPage === 1}
+            onClick={() => setMatchingPage((prevState) => prevState - 1)}
+            size={'small'}
+            sx={(theme) => ({
+              border: '1px solid',
+              borderColor: theme.palette.divider,
+            })}
+          >
+            <ChevronLeftIcon fontSize={'small'} />
+          </IconButton>
+          <IconButton
+            disabled={totalMatching / matchingPerPage <= matchingPage}
+            onClick={() => setMatchingPage((prevState) => prevState + 1)}
+            size={'small'}
+            sx={(theme) => ({
+              marginLeft: theme.spacing(1),
+              border: '1px solid',
+              borderColor: theme.palette.divider,
+            })}
+          >
+            <KeyboardArrowRightIcon fontSize={'small'} />
+          </IconButton>
+        </Box>
+      </Box>
+      {matchingLoading ? (
+        <Grid container key={'all-matching-users'} spacing={2}>
+          {[...Array(matchingPerPage)].map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <Grid item key={index} md={4} sm={6} xs={12}>
+              <Skeleton animation={'wave'} height={102} sx={{ borderRadius: 1 }} variant={'rectangular'} />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
         <Grid container spacing={2}>
-          {matching.map((person) => (
+          {matching?.map((person) => (
             <Grid item key={person?._id} md={4} sm={6} xs={12}>
               <PeopleAnimationCard person={person} />
             </Grid>
           ))}
         </Grid>
-      </InfiniteScroll>
-      <Stack alignItems={'center'} direction={'row'} justifyContent={'space-between'}>
+      )}
+
+      <Stack alignItems={'center'} direction={'row'} justifyContent={'space-between'} mt={2}>
         <Typography
           sx={(theme) => ({
             ...theme.typography.h6,
@@ -388,7 +423,7 @@ const People = () => {
             {[...Array(9)].map((_, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <Grid item key={index} md={4} sm={6} xs={12}>
-                <Skeleton animation={'wave'} height={110} sx={{ borderRadius: 1 }} variant={'rectangular'} />
+                <Skeleton animation={'wave'} height={102} sx={{ borderRadius: 1 }} variant={'rectangular'} />
               </Grid>
             ))}
           </Grid>
