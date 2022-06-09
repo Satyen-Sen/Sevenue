@@ -299,7 +299,6 @@ const People = () => {
           ))}
         </Grid>
       )}
-
       <Stack alignItems={'center'} direction={'row'} justifyContent={'space-between'} mt={2}>
         <Typography
           sx={(theme) => ({
@@ -372,10 +371,15 @@ const People = () => {
             aria-controls={openSort ? 'basic-menu' : undefined}
             aria-expanded={openSort ? 'true' : undefined}
             aria-haspopup="true"
-            endIcon={<SortByAlpha />}
             id="basic-button"
             onClick={handleClickSort}
-            sx={{ textTransform: 'capitalize', ml: 1 }}
+            startIcon={<SortByAlpha color={'primary'} />}
+            sx={(theme) => ({
+              textTransform: 'capitalize',
+              ml: 1,
+              color: 'inherit',
+              borderColor: theme.palette.divider,
+            })}
             variant={'outlined'}
           >
             {translations('sort')}
@@ -384,10 +388,36 @@ const People = () => {
             MenuListProps={{
               'aria-labelledby': 'basic-button',
             }}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: 'visible',
+                filter: 'drop-shadow(0px 0px 1px rgba(0,0,0,0.32))',
+                mt: 1.5,
+                '& .MuiAvatar-root': {
+                  width: 25,
+                  height: 25,
+                },
+                '&:before': {
+                  content: '""',
+                  display: 'block',
+                  position: 'absolute',
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: 'background.paper',
+                  transform: 'translateY(-50%) rotate(45deg)',
+                  zIndex: 0,
+                },
+              },
+            }}
             anchorEl={anchorElSort}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             id="basic-menu"
             onClose={handleCloseSort}
             open={openSort}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           >
             {sorts.map((each, pos) => {
               if (pos === sortType)
