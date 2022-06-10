@@ -21,7 +21,7 @@ RUN chmod 2777 "/usr/src/app"
 #USER www-data
 
 COPY . /usr/src/app
-COPY .next/static/service-worker.js /usr/src/app/public/service-worker.js
+#COPY .next/static/service-worker.js /usr/src/app/public/service-worker.js
 
 # Install app dependencies
 #RUN yarn install --pure-lockfile
