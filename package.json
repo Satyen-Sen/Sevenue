@@ -8,7 +8,7 @@
     "prod": "yarn && NEXT_PUBLIC_NODE_ENV=production next build &&  next start -p 5000",
     "prodLocal": "NEXT_PUBLIC_NODE_ENV=production next -p 5000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 4031",
     "lint": "next lint",
     "eslint": "eslint --ext .jsx --ext .js --fix --ignore-path .eslintignore .",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
