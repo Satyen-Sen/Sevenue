@@ -1,0 +1,40 @@
+{
+	"login": "Login",
+	"title": "Sign in/Register through your email to continue",
+	"email": "Email",
+	"continue": "Continue",
+	"login-with": "Or login with",
+	"powered-by": "Powered by",
+	"register": {
+		"title": "Create your account",
+		"subtitle": "You are signing up with the email:",
+		"firstname": "First name",
+		"lastname": "Last name",
+		"password": "Password",
+		"confirm-password": "Confirm password",
+			"signup": "Sign up"
+	},
+	"password": {
+		"title": "Enter Password",
+		"description": "Enter the 6-digit code sent to {email}",
+		"placeholder": "Password",
+		"agree": "I agree to the ",
+		"terms-and-conditions": "Terms and Conditions",
+		"and": "and",
+		"privacy-policy": "Privacy Policy"
+	},
+	"forgot-password": {
+		"title": "Forgot password?",
+		"description": "Enter the 6-digit code sent to {email}",
+		"placeholder": "6 digit code",
+		"not-received": "Not receiving 6-digit code?",
+		"email-support": "Email support at {email}"
+	},
+	"reset-password": {
+		"title": "Reset your password",
+		"description": "Set a new password for your account",
+		"password": "Password",
+		"confirm-password": "Confirm password",
+		"btn": "Reset password"
+	}
+}

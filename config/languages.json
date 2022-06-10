@@ -1,0 +1,13 @@
+{
+	"locales": [
+		{
+			"key": "en",
+			"name": "English"
+		},
+		{
+			"key": "hi",
+			"name": "Hindi"
+		}
+	],
+	"defaultLocale": "en"
+}

@@ -1,17 +1,8 @@
 {
-    "authentication": "/authentication",
-    "service-request": "/v1/service-request",
-    "partner-request": "/v1/partner-with-us",
-    "upload": "/v1/upload",
-    "city": "/v1/city",
-    "brand": "/v1/brand",
-    "area": "/v1/area",
-    "dashboard": "/v1/dashboard",
-    "users": "/v1/users",
-    "forgetPassword": "/v2/forget-password",
-    "verifyEmail": "/v2/verify-email",
-    "states": "/v2/state",
-    "cities": "/v2/city",
-    "verifyOtp": "/v2/verify-password-otp",
-    "resetPassword": "/v2/reset-password"
+    "authentication": "/v3/authentication",
+    "upload": "/v3/upload",
+    "get-event": "/v3/get-event",
+    "users": "/v3/users",
+    "check-email": "/v3/check-email",
+    "favourite": "/v3/favourite-users"
 }

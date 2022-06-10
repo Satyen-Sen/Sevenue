@@ -1,0 +1,28 @@
+{
+	"show-more": "Show More",
+	"show-less": "Show Less",
+	"card": {
+		"event-by": "Event By",
+		"starting-in": "Starting In",
+		"event-time": "Event Time",
+		"register-now": "Register Now",
+		"stay-updated": "Stay Updated",
+		"date": "{start} - {end}"
+	},
+	"tab": {
+		"schedule": "Schedule",
+		"speakers": "Speakers",
+		"sponsors": "Sponsors",
+		"exhibitors": "Exhibitors",
+		"organizer": "Organizer"
+	},
+	"tabDetail": {
+		"view-details": "View Details",
+		"view-profile": "View Profile"
+	},
+	"sponsors": {
+		"gold-sponsor": "Gold Sponsor",
+		"silver-sponsor": "Silver Sponsor",
+		"brand-sponsor": "Brand Sponsor"
+	}
+}

@@ -1,0 +1,6 @@
+.idea
+node_modules
+test
+.github
+.next
+/public/service-worker.js

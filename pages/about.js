@@ -9,10 +9,10 @@ export default function About() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography component="h1" gutterBottom variant="h4">
           Next.js example
         </Typography>
-        <Button variant="contained" component={Link} noLinkStyle href="/">
+        <Button component={Link} href="/" noLinkStyle variant="contained">
           Go to the main page
         </Button>
       </Box>

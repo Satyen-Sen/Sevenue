@@ -1,0 +1,59 @@
+
+cache:
+  paths:
+    - node_modules/
+    - .next/
+    - .env
+
+stages:
+  - env
+  - build
+  - docker
+
+setup branch env:
+    image: alpine:latest
+    stage: env
+    script:
+        - echo "$CI_COMMIT_REF_NAME"
+        - cp config/envs/.env.$CI_COMMIT_REF_NAME .env
+    only:
+        - develop
+        - master
+
+setup tag env:
+    image: alpine:latest
+    stage: env
+    script:
+        - cp config/envs/.env.master .env
+    only:
+        - master
+        - tags
+
+build:
+  image: node:12.18.0
+  stage: build
+  script:
+    - cat .env
+    - yarn install --pure-lockfile
+    - yarn build
+  only:
+    - develop
+    - master
+    - tags
+
+docker:
+  image: docker:latest
+  stage: docker
+  services:
+    - docker:dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --build-arg VCS_REF=`git rev-parse --short HEAD` --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --pull -t "$IMAGE_TAG" .
+    - docker push "$IMAGE_TAG"
+  only:
+    - develop
+    - master
+    - tags

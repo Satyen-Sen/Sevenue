@@ -5,7 +5,7 @@ import rest from '@feathersjs/rest-client';
 import Axios from 'axios';
 import services from './services.json';
 
-export const authCookieName = 'ticket';
+export const authCookieName = 'sev_auth';
 
 /**
  * CookieStorage
@@ -13,7 +13,27 @@ export const authCookieName = 'ticket';
  */
 export const cookieStorage = new CookieStorage();
 
-const restClient = rest(process.env.baseUrl);
+export const cookieStorageGetItem = (key) => {
+  try {
+    return cookieStorage.getItem(key);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Cookie parse fail:', e);
+    return null;
+  }
+};
+
+export const cookieStorageRemoveItem = (key) => {
+  try {
+    return cookieStorage.removeItem(key);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Cookie remove fail:', e);
+    return null;
+  }
+};
+
+const restClient = rest(process.env.NEXT_PUBLIC_API_URI);
 
 /**
  * Feathers application
@@ -24,14 +44,14 @@ const restApp = feathers();
 restApp.configure(restClient.axios(Axios));
 
 restApp.configure(
-    auth({
-        path: services.authentication,
-        // cookie: process.env.NEXT_COOKIE_NAME,
-        cookie: authCookieName,
-        // storageKey: process.env.NEXT_COOKIE_NAME,
-        storageKey: authCookieName,
-        storage: cookieStorage,
-    }),
+  auth({
+    path: services.authentication,
+    // cookie: process.env.NEXT_COOKIE_NAME,
+    cookie: authCookieName,
+    // storageKey: process.env.NEXT_COOKIE_NAME,
+    storageKey: authCookieName,
+    storage: cookieStorage,
+  }),
 );
 
 export default restApp;
@@ -39,20 +59,12 @@ export default restApp;
 export const uploadService = restApp.service(services.upload);
 
 export const uploadFile = (file) => {
-    const formData = new FormData();
-    formData.append('uri[]', file);
-    return uploadService.create(formData);
+  const formData = new FormData();
+  formData.append('uri[]', file);
+  return uploadService.create(formData);
 };
 
-export const ServiceRequestService = restApp.service(services['service-request']);
-export const PartnerRequestService = restApp.service(services['partner-request']);
-export const CityService = restApp.service(services['city']);
-export const BrandService = restApp.service(services['brand']);
-export const AreaService = restApp.service(services['area']);
-
 export const UsersService = restApp.service(services['users']);
-export const ForgetPasswordService = restApp.service(services['forgetPassword']);
-export const VerifyEmailService = restApp.service(services['verifyEmail']);
-
-export const VerifyOtpServiceForForgotPassword = restApp.service(services['verifyOtp']);
-export const ResetPasswordService = restApp.service(services['resetPassword']);
+export const GetEventService = restApp.service(services['get-event']);
+export const CheckEmailService = restApp.service(services['check-email']);
+export const FavouriteService = restApp.service(services['favourite']);
