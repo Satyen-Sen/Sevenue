@@ -3,5 +3,6 @@
     "upload": "/v3/upload",
     "get-event": "/v3/get-event",
     "users": "/v3/users",
-    "check-email": "/v3/check-email"
+    "check-email": "/v3/check-email",
+    "favourite": "/v3/favourite-users"
 }
