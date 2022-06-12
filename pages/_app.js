@@ -50,25 +50,26 @@ export default function MyApp(props) {
   const withOutLoginPages = ['/', '/onboarding', '/register', ...withOutLivePages];
 
   const checkAccess = (user) => {
-    if (event.isLive) {
-      if (!user && !withOutLoginPages.includes(Router.pathname)) {
-        Router.push('/').then(() => {
-          setLoading(false);
-        });
-      } else {
-        setLoading(false);
-      }
-    } else if (withOutLivePages.includes(Router.pathname)) {
-      setLoading(false);
-    } else if (preview === 'true') {
-      setLoading(false);
-    } else if (user && user.role === 'user') {
-      setLoading(false);
-    } else {
-      Router.push('/not-found').then(() => {
-        setLoading(false);
-      });
-    }
+    // if (event.isLive) {
+    //   if (!user && !withOutLoginPages.includes(Router.pathname)) {
+    //     Router.push('/').then(() => {
+    //       setLoading(false);
+    //     });
+    //   } else {
+    //     setLoading(false);
+    //   }
+    // } else if (withOutLivePages.includes(Router.pathname)) {
+    //   setLoading(false);
+    // } else if (preview === 'true') {
+    //   setLoading(false);
+    // } else if (user && user.role === 'user') {
+    //   setLoading(false);
+    // } else {
+    //   Router.push('/not-found').then(() => {
+    //     setLoading(false);
+    //   });
+    // }
+    setLoading(false);
   };
 
   useEffect(async () => {
@@ -159,17 +160,17 @@ MyApp.getInitialProps = async (context) => {
   const { req, query } = ctx;
   const { preview } = query;
   const { host: hostname } = req.headers;
-  const event = await GetEventService.find({
-    query: {
-      slug: 'red-kite-conference-2022',
-      // slug: 'test-aws-1',
-    },
-  });
+  // const event = await GetEventService.find({
+  //   query: {
+  //     slug: 'red-kite-conference-2022',
+  //     // slug: 'test-aws-1',
+  //   },
+  // });
 
   return {
     globalProps: {
       hostname,
-      event,
+      event: {},
       preview,
     },
   };
