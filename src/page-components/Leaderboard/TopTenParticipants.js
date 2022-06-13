@@ -3,8 +3,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import profile from "../../assets/landing/temp_profile_image.png";
 import ParticipantCard from "./ParticipantCard";
+import { useTranslations } from "next-intl";
 
 const TopTenParticipants = () => {
+
+  const translations = useTranslations();
+
   const participants = [
     { name: "Alan Rickman", points: 9000, avatar: profile },
     { name: "Ronald Tan", points: 8500, avatar: profile },
@@ -35,7 +39,7 @@ const TopTenParticipants = () => {
           fontSize: "1.2rem",
         })}
       >
-        Your Current Rank
+        {translations("currentRank")}
       </Typography>
       <ParticipantCard
         isActive={true}
@@ -51,7 +55,7 @@ const TopTenParticipants = () => {
           mt: 3,
         })}
       >
-        Top 10 Participants
+        {translations("topTen")}
       </Typography>
       {participants.map((each, index) => {
         return (

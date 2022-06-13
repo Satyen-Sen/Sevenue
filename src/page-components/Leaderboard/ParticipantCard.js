@@ -100,6 +100,7 @@ const ParticipantCard = ({ rank, person, isActive }) => {
               height: theme.spacing(8),
               width: theme.spacing(8),
               m: 2,
+              mr:4,
             })}
           />
         </Grid>

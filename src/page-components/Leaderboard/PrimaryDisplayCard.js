@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 const PrimaryDisplayCard = () => {
   return (
-    <Box sx={{ backgroundColor: '#b8244f', borderRadius: 1, mt: 4 }}>
+    <Box sx={(theme) => ({backgroundColor: theme.palette.primary.main, borderRadius: 1, mt: 4,})}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <Box
@@ -58,7 +58,7 @@ const PrimaryDisplayCard = () => {
                 fontWeight: theme.typography.fontWeightBold,
                 fontSize: '16px',
                 mt: 3,
-                color: '#FEC954',
+                color: theme.palette.warning.light, 
               })}
             >
               Rank 02
@@ -103,7 +103,7 @@ const PrimaryDisplayCard = () => {
                 height: theme.spacing(16),
                 width: theme.spacing(16),
                 border: 5,
-                color: 'background.paper',
+                color:theme.palette.common.white,
                 borderRadius: '50%',
               })}
             />
