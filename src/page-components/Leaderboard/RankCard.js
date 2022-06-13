@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Prizes from './Prizes';
 import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
