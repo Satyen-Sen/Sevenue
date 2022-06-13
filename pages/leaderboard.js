@@ -1,18 +1,14 @@
-import * as React from 'react';
-import getPageMessages from '../utils/getPageMessages';
-import DashboardLayout from '../src/layouts/DashboardLayout';
-import { useTranslations } from 'next-intl';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Avatar from '@mui/material/Avatar';
-import Card from '@mui/material/Card';
+import * as React from "react";
+import getPageMessages from "../utils/getPageMessages";
+import DashboardLayout from "../src/layouts/DashboardLayout";
+import { useTranslations } from "next-intl";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
 
-import profile from '../src/assets/landing/temp_profile_image.png';
-import PrimaryDisplayCard from '../src/page-components/Leaderboard/PrimaryDisplayCard';
-import TopTenParticipants from '../src/page-components/Leaderboard/TopTenParticipants';
-import RankCard from '../src/page-components/Leaderboard/RankCard';
+import PrimaryDisplayCard from "../src/page-components/Leaderboard/PrimaryDisplayCard";
+import TopTenParticipants from "../src/page-components/Leaderboard/TopTenParticipants";
+import RankCard from "../src/page-components/Leaderboard/RankCard";
 
 const Leaderboard = () => {
   const translations = useTranslations();
@@ -23,11 +19,11 @@ const Leaderboard = () => {
         sx={(theme) => ({
           ...theme.typography.h6,
           fontWeight: theme.typography.fontWeightBold,
-          fontSize: '1.2rem',
+          fontSize: "1.2rem",
           marginBottom: theme.spacing(2),
         })}
       >
-        {translations('title')}
+        {translations("title")}
       </Typography>
 
       <Divider />
@@ -39,7 +35,7 @@ const Leaderboard = () => {
         </Grid>
 
         <Grid item lg={6} sm={12}>
-          <RankCard />
+          <RankCard/>
         </Grid>
       </Grid>
     </React.Fragment>
@@ -51,7 +47,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      ...getPageMessages('leaderboard', locale),
+      ...getPageMessages("leaderboard", locale),
     },
   };
 };

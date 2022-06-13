@@ -26,7 +26,7 @@ const PrimaryDisplayCard = () => {
                 height: theme.spacing(14),
                 width: theme.spacing(14),
                 border: 5,
-                color: 'background.paper',
+                color: theme.palette.common.white,
                 borderRadius: '50%',
               })}
             />
@@ -36,7 +36,7 @@ const PrimaryDisplayCard = () => {
                 fontWeight: theme.typography.fontWeightBold,
                 fontSize: '16px',
                 mt: 2,
-                color: 'background.paper',
+                color: theme.palette.common.white,
               })}
             >
               Daniel Gilberg
@@ -47,7 +47,7 @@ const PrimaryDisplayCard = () => {
                 fontWeight: theme.typography.fontWeightLight,
                 fontSize: '12px',
                 mt: 1,
-                color: 'background.paper',
+                color: theme.palette.common.white,
               })}
             >
               Sales Manager at Brumy
@@ -70,8 +70,8 @@ const PrimaryDisplayCard = () => {
                 fontSize: '14px',
                 mt: 1,
                 mb: 4,
-                color: 'background.paper',
-                borderColor: 'background.paper',
+                color: theme.palette.common.white,
+                borderColor: theme.palette.common.white,
                 border: 1,
                 borderRadius: 1,
                 width: '120px',
@@ -113,7 +113,7 @@ const PrimaryDisplayCard = () => {
                 fontWeight: theme.typography.fontWeightBold,
                 fontSize: '16px',
                 mt: 2,
-                color: 'background.paper',
+                color: theme.palette.common.white,
               })}
             >
               Abdel Latif
@@ -124,7 +124,7 @@ const PrimaryDisplayCard = () => {
                 fontWeight: 300,
                 fontSize: '12px',
                 mt: 1,
-                color: 'background.paper',
+                color: theme.palette.common.white,
               })}
             >
               CEO at XYZ.co
@@ -147,9 +147,9 @@ const PrimaryDisplayCard = () => {
                 fontSize: '14px',
                 mt: 1,
                 mb: 4,
-                color: 'background.paper',
+                color: theme.palette.common.white,
                 backgroundColor: '#f52b60',
-                borderColor: 'background.paper',
+                borderColor: theme.palette.common.white,
                 border: 1,
                 borderRadius: 1,
                 width: '120px',
@@ -181,7 +181,7 @@ const PrimaryDisplayCard = () => {
                 height: theme.spacing(14),
                 width: theme.spacing(14),
                 border: 5,
-                color: 'background.paper',
+                color: theme.palette.common.white,
                 borderRadius: '50%',
               })}
             />
@@ -191,7 +191,7 @@ const PrimaryDisplayCard = () => {
                 fontWeight: theme.typography.fontWeightBold,
                 fontSize: '16px',
                 mt: 2,
-                color: 'background.paper',
+                color: theme.palette.common.white,
               })}
             >
               Shasha Braus
@@ -202,7 +202,7 @@ const PrimaryDisplayCard = () => {
                 fontWeight: 300,
                 fontSize: '12px',
                 mt: 1,
-                color: 'background.paper',
+                color: theme.palette.common.white,
               })}
             >
               Entrepreneur at JJCM
@@ -225,8 +225,8 @@ const PrimaryDisplayCard = () => {
                 fontSize: '14px',
                 mt: 1,
                 mb: 4,
-                color: 'background.paper',
-                borderColor: 'background.paper',
+                color: theme.palette.common.white,
+                borderColor: theme.palette.common.white,
                 border: 1,
                 borderRadius: 1,
                 width: '120px',
