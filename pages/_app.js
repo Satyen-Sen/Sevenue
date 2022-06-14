@@ -161,8 +161,7 @@ MyApp.getInitialProps = async (context) => {
   const { host: hostname } = req.headers;
   const event = await GetEventService.find({
     query: {
-      slug: 'red-kite-conference-2022',
-      // slug: 'test-aws-1',
+      slug: hostname === 'localhost:3000' ? 'red-kite-conference-2022' : hostname.split('.')[0],
     },
   });
 
