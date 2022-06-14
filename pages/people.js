@@ -1,19 +1,26 @@
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import getPageMessages from '../utils/getPageMessages';
-import DashboardLayout from '../src/layouts/DashboardLayout';
-import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
-import { UsersService } from '../src/apis/rest.app';
-import InfiniteScroll from '../src/components/InfiniteScroll';
-import Skeleton from '@mui/material/Skeleton';
-import { useGlobalData } from '../src/store/GlobalContext';
-import { Button, ListItemIcon, ListItemText, Menu, MenuItem, Stack } from '@mui/material';
-import Box from '@mui/material/Box';
-import { Check, SortByAlpha } from '@mui/icons-material';
-import PeopleAnimationCard from '../src/page-components/People/PeopleAnimationCard';
+import * as React from "react";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import getPageMessages from "../utils/getPageMessages";
+import DashboardLayout from "../src/layouts/DashboardLayout";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { UsersService } from "../src/apis/rest.app";
+import InfiniteScroll from "../src/components/InfiniteScroll";
+import Skeleton from "@mui/material/Skeleton";
+import { useGlobalData } from "../src/store/GlobalContext";
+import {
+  Button,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Stack,
+} from "@mui/material";
+import Box from "@mui/material/Box";
+import { Check, SortByAlpha } from "@mui/icons-material";
+import PeopleAnimationCard from "../src/page-components/People/PeopleAnimationCard";
 
 const People = () => {
   const translations = useTranslations();
@@ -37,7 +44,7 @@ const People = () => {
   // ]);
 
   const [sortType, setSortType] = useState(0);
-  const sorts = ['Recently Added', 'Name (A-Z)', 'Name (Z-A)'];
+  const sorts = ["Recently Added", "Name (A-Z)", "Name (Z-A)"];
 
   // const [anchorEl, setAnchorEl] = React.useState(null);
   // const open = Boolean(anchorEl);
@@ -68,7 +75,11 @@ const People = () => {
         $skip: people.length,
         $limit: 9,
         $sort: {
-          ...(sortType === 0 ? { createdAt: -1 } : sortType === 1 ? { firstName: 1 } : { firstName: -1 }),
+          ...(sortType === 0
+            ? { createdAt: -1 }
+            : sortType === 1
+            ? { firstName: 1 }
+            : { firstName: -1 }),
         },
         ...(selectedInterest && selectedInterest.length > 0
           ? {
@@ -96,10 +107,10 @@ const People = () => {
       query: {
         $skip: people.length,
         $limit: 9,
-        'matching.lookingFor': {
+        "matching.lookingFor": {
           $in: user?.matching?.lookingFor ? user?.matching?.lookingFor : [],
         },
-        'matching.offering': {
+        "matching.offering": {
           $in: user?.matching?.offering ? user?.matching?.offering : [],
         },
         interests: {
@@ -127,32 +138,37 @@ const People = () => {
         sx={(theme) => ({
           ...theme.typography.h6,
           fontWeight: theme.typography.fontWeightBold,
-          fontSize: '1.2rem',
+          fontSize: "1.2rem",
           marginBottom: theme.spacing(2),
         })}
       >
-        {translations('title')}
+        {translations("title")}
       </Typography>
       <Divider />
       <Typography
         sx={(theme) => ({
           ...theme.typography.h6,
           fontWeight: theme.typography.fontWeightBold,
-          fontSize: '1.2rem',
+          fontSize: "1.2rem",
           my: theme.spacing(2),
         })}
       >
-        {translations('your-match', { count: totalMatching })}
+        {translations("your-match", { count: totalMatching })}
       </Typography>
       <InfiniteScroll
         hasMore={hasMoreMatch}
         loadMore={loadMatching}
         loader={
-          <Grid container key={'all-teacher'} spacing={2} sx={{ mt: 2 }}>
+          <Grid container key={"all-teacher"} spacing={2} sx={{ mt: 2 }}>
             {[...Array(9)].map((_, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <Grid item key={index} md={4} sm={6} xs={12}>
-                <Skeleton animation={'wave'} height={110} sx={{ borderRadius: 1 }} variant={'rectangular'} />
+                <Skeleton
+                  animation={"wave"}
+                  height={110}
+                  sx={{ borderRadius: 1 }}
+                  variant={"rectangular"}
+                />
               </Grid>
             ))}
           </Grid>
@@ -167,18 +183,22 @@ const People = () => {
           ))}
         </Grid>
       </InfiniteScroll>
-      <Stack alignItems={'center'} direction={'row'} justifyContent={'space-between'}>
+      <Stack
+        alignItems={"center"}
+        direction={"row"}
+        justifyContent={"space-between"}
+      >
         <Typography
           sx={(theme) => ({
             ...theme.typography.h6,
             fontWeight: theme.typography.fontWeightBold,
-            fontSize: '1.2rem',
+            fontSize: "1.2rem",
             my: theme.spacing(2),
           })}
         >
-          {translations('all-attendees', { count: total })}
+          {translations("all-attendees", { count: total })}
         </Typography>
-        <Box alignItems={'center'} display={'flex'}>
+        <Box alignItems={"center"} display={"flex"}>
           {/*<Button*/}
           {/*  aria-controls={open ? 'basic-menu' : undefined}*/}
           {/*  aria-expanded={open ? 'true' : undefined}*/}
@@ -236,20 +256,20 @@ const People = () => {
           {/*  </Box>*/}
           {/*</Menu>*/}
           <Button
-            aria-controls={openSort ? 'basic-menu' : undefined}
-            aria-expanded={openSort ? 'true' : undefined}
+            aria-controls={openSort ? "basic-menu" : undefined}
+            aria-expanded={openSort ? "true" : undefined}
             aria-haspopup="true"
             endIcon={<SortByAlpha />}
             id="basic-button"
             onClick={handleClickSort}
-            sx={{ textTransform: 'capitalize', ml: 1 }}
-            variant={'outlined'}
+            sx={{ textTransform: "capitalize", ml: 1 }}
+            variant={"outlined"}
           >
             Sort
           </Button>
           <Menu
             MenuListProps={{
-              'aria-labelledby': 'basic-button',
+              "aria-labelledby": "basic-button",
             }}
             anchorEl={anchorElSort}
             id="basic-menu"
@@ -286,11 +306,16 @@ const People = () => {
         hasMore={hasMore}
         loadMore={loadPeople}
         loader={
-          <Grid container key={'all-teacher'} spacing={2} sx={{ mt: 2 }}>
+          <Grid container key={"all-teacher"} spacing={2} sx={{ mt: 2 }}>
             {[...Array(9)].map((_, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <Grid item key={index} md={4} sm={6} xs={12}>
-                <Skeleton animation={'wave'} height={110} sx={{ borderRadius: 1 }} variant={'rectangular'} />
+                <Skeleton
+                  animation={"wave"}
+                  height={110}
+                  sx={{ borderRadius: 1 }}
+                  variant={"rectangular"}
+                />
               </Grid>
             ))}
           </Grid>
@@ -314,7 +339,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      ...getPageMessages('people', locale),
+      ...getPageMessages("people", locale),
     },
   };
 };

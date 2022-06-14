@@ -34,20 +34,15 @@ const ActionPoints = () => {
 
   return (
     <React.Fragment>
-      <Prizes isActive={true} title={"1ˢᵗ "} />
-      <Prizes isActive={false} title={"2ⁿᵈ "} />
-      <Prizes isActive={false} title={"3ʳᵈ "} />
+      <Prizes isActive={true} title={translations("first")} />
+      <Prizes isActive={false} title={translations("second")} />
+      <Prizes isActive={false} title={translations("third")} />
 
-      <Card
-        sx={(theme) => ({ mt: 2, boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.16)" })}
-      >
+      <Card sx={() => ({ mt: 2, boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.16)" })}>
         <Table>
           <TableBody>
             <TableRow>
-              <TableCell
-                xs={8}
-                sx={(theme) => ({ backgroundColor: "#504E4E" })}
-              >
+              <TableCell xs={8} sx={() => ({ backgroundColor: "#504E4E" })}>
                 <Typography
                   sx={(theme) => ({
                     fontWeight: theme.typography.fontWeightBold,

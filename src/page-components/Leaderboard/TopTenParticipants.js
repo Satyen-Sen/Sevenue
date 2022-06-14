@@ -42,7 +42,7 @@ const TopTenParticipants = () => {
       </Typography>
       <ParticipantCard
         isActive={true}
-        person={{ name: "Abdullah Omar (me)", points: 3000, avatar: profile }}
+        person={{ name: "Abdullah Omar (me)", points: 7000, avatar: profile }}
         rank={3}
       />
 

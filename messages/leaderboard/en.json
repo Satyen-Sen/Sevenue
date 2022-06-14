@@ -2,7 +2,7 @@
   "title": "Participation Leaderboard",
   "currentRank": "Your Current Rank",
   "topTen": "Top 10 Participants",
-  "rank": "Rank 0",
+  "rank": "Rank 0{count}",
   "points": "Points",
   "rm500": "RM500",
   "cash": "CASH",
@@ -11,6 +11,9 @@
   "vouchers": "VOUCHERS",
   "worths": "WORTHS",
   "action": "action",
-  "point": "Point",
-  "prize": "prize"
+  "point": "{num} Points",
+  "prize": "prize",
+  "first": "1ˢᵗ ",
+  "second": "2ⁿᵈ ",
+  "third": "3ʳᵈ "
 }

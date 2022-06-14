@@ -4,8 +4,11 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import PropTypes from "prop-types";
+import { useTranslations } from "next-intl";
 
 const ParticipantCard = ({ rank, person, isActive }) => {
+  const translations = useTranslations();
+
   return (
     <Card
       sx={{
@@ -80,7 +83,8 @@ const ParticipantCard = ({ rank, person, isActive }) => {
               ml: 4,
             })}
           >
-            {person?.points || "---"} {"Points"}
+            {translations("point", { num: person?.points || "---" })}
+            {/* {person?.points || "---"} {"Points"} */}
           </Typography>
         </Grid>
 

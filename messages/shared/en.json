@@ -1,48 +1,48 @@
 {
-	"layout": {
-		"default": {
-			"login": "Login",
-			"register": "Registered already?"
-		},
-		"dashboard": {
-			"drawer": {
-				"enter-lobby": "Enter Lobby",
-				"stage-agenda": "Stage/Agenda",
-				"exhibitors": "Exhibitors",
-				"speakers": "Speakers",
-				"people": "People",
-				"lounge": "Lounge",
-				"rooms": "Rooms",
-				"contests": "Contests",
-				"leaderboard": "Leaderboard",
-				"photo-booth": "Photo Booth"
-			},
-			"header": {
-				"description": "{start} - {end}",
-				"feed": "Feed",
-				"live-now": "Live Now",
-				"my-schedule": "My Schedule",
-				"my-bookmarks": "My Bookmarks",
-				"my-briefcases": "My Briefcases",
-				"leaderboard": "Leaderboard",
-				"people": "People",
-				"messages": "Messages",
-				"notifications": "Notifications"
-			},
-			"profile": {
-				"name": "{firstName} {lastName}",
-				"edit-profile": "Edit profile",
-				"my-tickets": "My tickets",
-				"settings": "Settings",
-				"logout": "Logout"
-			}
-		}
-	},
-	"error": {
-		"event-not-found": {
-			"title": "Event not found",
-			"description": "Sorry the event your are looking for does not exist or is not live yet. You may have typed the address incorrectly or you may have used an outdated link. If you found a broken link from our site then reach out to us on {email}",
-			"return-to-home": "Return to Homepage"
-		}
-	}
+  "layout": {
+    "default": {
+      "login": "Login",
+      "register": "Registered already?"
+    },
+    "dashboard": {
+      "drawer": {
+        "enter-lobby": "Enter Lobby",
+        "stage-agenda": "Stage/Agenda",
+        "exhibitors": "Exhibitors",
+        "speakers": "Speakers",
+        "people": "People",
+        "lounge": "Lounge",
+        "rooms": "Rooms",
+        "contests": "Contests",
+        "leaderboard": "Leaderboard",
+        "photo-booth": "Photo Booth"
+      },
+      "header": {
+        "description": "{start} - {end}",
+        "feed": "Feed",
+        "live-now": "Live Now",
+        "my-schedule": "My Schedule",
+        "my-bookmarks": "My Bookmarks",
+        "my-briefcases": "My Briefcases",
+        "leaderboard": "Leaderboard",
+        "people": "People",
+        "messages": "Messages",
+        "notifications": "Notifications"
+      },
+      "profile": {
+        "name": "{firstName} {lastName}",
+        "edit-profile": "Edit profile",
+        "my-tickets": "My tickets",
+        "settings": "Settings",
+        "logout": "Logout"
+      }
+    }
+  },
+  "error": {
+    "event-not-found": {
+      "title": "Event not found",
+      "description": "Sorry the event your are looking for does not exist or is not live yet. You may have typed the address incorrectly or you may have used an outdated link. If you found a broken link from our site then reach out to us on {email}",
+      "return-to-home": "Return to Homepage"
+    }
+  }
 }

@@ -39,7 +39,7 @@ const Prizes = ({ isActive, title }) => {
             m: 1,
           })}
         >
-          {title} {translations("Prize")}
+          {title} {translations("prize")}
         </Typography>
       </Box>
 
@@ -51,7 +51,7 @@ const Prizes = ({ isActive, title }) => {
           flexDirection: "row",
         })}
       >
-        <Grid item sx={(theme) => ({ m: 2 })} xs={5}>
+        <Grid item sx={() => ({ m: 2 })} xs={5}>
           <Typography
             sx={(theme) => ({
               fontWeight: theme.typography.fontWeightBold,
@@ -99,7 +99,7 @@ const Prizes = ({ isActive, title }) => {
 
         <Grid item xs={2}></Grid>
 
-        <Grid item sx={(theme) => ({ m: 2 })} xs={4.5}>
+        <Grid item sx={() => ({ m: 2 })} xs={4.5}>
           <Typography
             sx={(theme) => ({
               fontWeight: theme.typography.fontWeightBold,

@@ -67,10 +67,10 @@ const PrimaryDisplayCard = () => {
                 fontWeight: theme.typography.fontWeightBold,
                 fontSize: "16px",
                 mt: 3,
-                color: theme.palette.warning.light,
+                color: "#FECA54",
               })}
             >
-              {translations("rank")}2
+              {translations("rank", { count: 2 })}
             </Typography>
             <Typography
               sx={(theme) => ({
@@ -144,10 +144,10 @@ const PrimaryDisplayCard = () => {
                 fontWeight: theme.typography.fontWeightBold,
                 fontSize: "16px",
                 mt: 3,
-                color: theme.palette.warning.light,
+                color: "#FECA54",
               })}
             >
-              {translations("rank")}1
+              {translations("rank", { count: 1 })}
             </Typography>
             <Typography
               sx={(theme) => ({
@@ -222,10 +222,10 @@ const PrimaryDisplayCard = () => {
                 fontWeight: theme.typography.fontWeightBold,
                 fontSize: "16px",
                 mt: 3,
-                color: theme.palette.warning.light,
+                color: "#FECA54",
               })}
             >
-              {translations("rank")}3
+              {translations("rank", { count: 3 })}
             </Typography>
             <Typography
               sx={(theme) => ({
