@@ -35,7 +35,7 @@ const Leaderboard = () => {
         </Grid>
 
         <Grid item lg={6} sm={12}>
-          <RankCard/>
+          <RankCard />
         </Grid>
       </Grid>
     </React.Fragment>

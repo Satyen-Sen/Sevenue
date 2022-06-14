@@ -6,7 +6,6 @@ import ParticipantCard from "./ParticipantCard";
 import { useTranslations } from "next-intl";
 
 const TopTenParticipants = () => {
-
   const translations = useTranslations();
 
   const participants = [

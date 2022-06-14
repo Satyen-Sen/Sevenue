@@ -21,7 +21,9 @@ const ParticipantCard = ({ rank, person, isActive }) => {
           md={2.5}
           sm={3}
           sx={(theme) => ({
-            backgroundColor: isActive ? theme.palette.warning.light : theme.palette.primary.light,
+            backgroundColor: isActive
+              ? theme.palette.warning.light
+              : theme.palette.primary.light,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -100,7 +102,7 @@ const ParticipantCard = ({ rank, person, isActive }) => {
               height: theme.spacing(8),
               width: theme.spacing(8),
               m: 2,
-              mr:4,
+              mr: 4,
             })}
           />
         </Grid>
