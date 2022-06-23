@@ -15,34 +15,13 @@ import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
 import ChatIcon from '@mui/icons-material/Chat';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useTranslations } from 'next-intl';
-// import { FavouriteService } from '../../apis/rest.app';
-// import { useEffect } from 'react';
-// import { useGlobalData } from '../../store/GlobalContext';
 
 const PeopleProfileDialog = ({ openProfile, setOpenProfile, person }) => {
   const translations = useTranslations();
-  // const [, , event] = useGlobalData();
   const description = `${person?.userInfo?.jobTitle || '---'}, ${person?.userInfo?.company || '---'}`;
   const handleClose = () => {
     setOpenProfile(false);
   };
-
-  // const handleFavorite = () => {
-  //   FavouriteService.create({
-  //     user: person._id,
-  //     org: event?.org?._id,
-  //     event: event?._id,
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-  // useEffect(() => {
-  //   handleFavorite();
-  // }, []);
 
   return (
     <React.Fragment>

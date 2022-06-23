@@ -80,11 +80,18 @@ const Register = () => {
       })
         .then(() => {
           restApp
-            .authenticate({
-              strategy: 'local',
-              email,
-              password,
-            })
+            .authenticate(
+              {
+                strategy: 'local',
+                email,
+                password,
+              },
+              {
+                query: {
+                  org: event?.org?._id,
+                },
+              },
+            )
             .then((res) => {
               if (res) {
                 enqueueSnackbar('User created successfully', { variant: 'success' });
