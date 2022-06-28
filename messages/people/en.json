@@ -1,6 +1,6 @@
 {
   "title": "People",
-  "your-match": "Your matches",
+  "your-match": "Your matches ({count})",
   "all-attendees": "All attendees ({count})",
   "send-message": "Send message",
   "schedule-meeting": "Schedule Meeting",
